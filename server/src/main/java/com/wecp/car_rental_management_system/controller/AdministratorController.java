@@ -17,6 +17,8 @@ import java.util.List;
 
 public class AdministratorController {
 
+    @Autowired
+    private BookingService bookingService;
 
     @PostMapping("/api/administrator/car-categories")
     public ResponseEntity<CarCategory> createCarCategory(@RequestBody CarCategory carCategory) {
@@ -36,6 +38,7 @@ public class AdministratorController {
     @GetMapping("/api/administrator/reports/bookings")
     public ResponseEntity<List<Booking>> getAllBookings() {
         // get all bookings
+        return new ResponseEntity<>(bookingService.getAllBooking(), HttpStatus.OK);
     }
 
     @GetMapping("/api/administrator/reports/payments")

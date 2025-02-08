@@ -13,6 +13,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class BookingService {
     // implement booking service
+    private BookingRepository bookingRepository;
+
+    @Autowired
+    public BookingService(BookingRepository bookingRepository) {
+        this.bookingRepository = bookingRepository;
+    }
+
+    public List<Booking> getAllBooking(){
+        return bookingRepository.findAll();
+    }
+
+    public Booking updateBookingStatus(Long bookingId, String status){
+        bookingRepository.updateBookingStatus(bookingId, status);
+        return bookingRepository.findById(bookingId).get();
+    }
+
+
 }

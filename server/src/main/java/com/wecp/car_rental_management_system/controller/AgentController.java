@@ -17,6 +17,9 @@ import java.util.List;
 
 public class AgentController {
 
+    @Autowired
+    private BookingService bookingService;
+
     @PostMapping("/api/agent/car")
     public ResponseEntity<Car> addCar(@RequestBody Car car) {
         // add a car and return created car
@@ -35,11 +38,13 @@ public class AgentController {
     @GetMapping("/api/agent/bookings")
     public ResponseEntity<List<Booking>> getAllBookings() {
         // get all bookings
+        return new ResponseEntity<>(bookingService.getAllBooking(),HttpStatus.OK);
     }
 
     @PutMapping("/api/agent/bookings/{bookingId}/status")
     public ResponseEntity<Booking> updateBookingStatus(@PathVariable Long bookingId, @RequestParam String status) {
        // update booking status
+       return new ResponseEntity<>(bookingService.updateBookingStatus(bookingId, status), HttpStatus.OK);
     }
 
     @PostMapping("/api/agent/payment/{bookingId}")
