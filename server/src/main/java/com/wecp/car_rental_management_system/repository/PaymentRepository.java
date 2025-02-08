@@ -11,9 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
-    @Query("SELECT p FROM Payment p WHERE p.bookingId = :bookingId")
-Payment findPaymentByBookingId(@Param("bookingId") Long bookingId);
-
+    // @Query("SELECT p FROM Payment p WHERE p.bookingId = :bookingId")
+    // Payment findPaymentByBookingId(@Param("bookingId") Long bookingId);
 
 }
 

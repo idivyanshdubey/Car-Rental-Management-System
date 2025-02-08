@@ -21,6 +21,7 @@ public class Booking {
     Double totalAmount;
     String paymentStatus;
 
+    @OneToOne
     Payment payment;
 
     @ManyToOne

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@RestController
 public class AgentController {
 
     @Autowired
@@ -24,20 +24,20 @@ public class AgentController {
     private BookingService bookingService;
 
 
-    @PostMapping("/api/agent/car")
-    public ResponseEntity<Car> addCar(@RequestBody Car car) {
-        // add a car and return created car
-    }
+    // @PostMapping("/api/agent/car")
+    // public ResponseEntity<Car> addCar(@RequestBody Car car) {
+    //     // add a car and return created car
+    // }
 
-    @GetMapping("/api/agent/cars")
-    public ResponseEntity<List<Car>> getAllCars() {
-        // get all cars
-    }
+    // @GetMapping("/api/agent/cars")
+    // public ResponseEntity<List<Car>> getAllCars() {
+    //     // get all cars
+    // }
 
-    @PutMapping("/api/agent/car/{carId}")
-    public ResponseEntity<Car> updateCar(@PathVariable Long carId, @RequestBody Car updatedCar) {
-        // update a car
-    }
+    // @PutMapping("/api/agent/car/{carId}")
+    // public ResponseEntity<Car> updateCar(@PathVariable Long carId, @RequestBody Car updatedCar) {
+    //     // update a car
+    // }
 
     @GetMapping("/api/agent/bookings")
     public ResponseEntity<List<Booking>> getAllBookings() {

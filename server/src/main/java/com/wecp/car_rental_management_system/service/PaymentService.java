@@ -12,23 +12,26 @@ import java.util.List;
 
 @Service
 public class PaymentService{
-    
-    PaymentRepository paymentRepository;
-    Booking Repository bookingRepository;
+
+    private PaymentRepository paymentRepository;
+
+    private BookingRepository bookingRepository;
+
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, BookingRepository bookingRepository) {
         this.paymentRepository = paymentRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     public Payment createPayment(Long BookingId,Payment payment){
-            Booking booking = bookingRepository.findById(BookingId);
-            payment.setBooking(booking);
-            return paymentRepository.save(payment);
-
+        Booking booking = bookingRepository.findById(BookingId).get();
+        payment.setBooking(booking);
+        return paymentRepository.save(payment);
     }
 
     public Payment getPaymentByBookingId(Long bookingId){
-        return paymentRepository.findPaymentByBookingId(bookingId);
+        // return paymentRepository.findPaymentByBookingId(bookingId);
+        return null;
     }
 
     public List<Payment> getAllPayment(){
