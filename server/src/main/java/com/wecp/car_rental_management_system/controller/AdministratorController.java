@@ -17,15 +17,21 @@ import java.util.List;
 
 public class AdministratorController {
 
+    @Autowired
+    private CarCategoryService carCategoryService;
+
 
     @PostMapping("/api/administrator/car-categories")
     public ResponseEntity<CarCategory> createCarCategory(@RequestBody CarCategory carCategory) {
         // create car category
+        return new ResponseEntity<CarCategory>(carCategoryService.addCarCategory(carCategory), HttpStatus.OK);
     }
+
 
     @GetMapping("/api/administrator/car-categories")
     public ResponseEntity<List<CarCategory>> getAllCarCategories() {
         // get all car categories
+        return new ResponseEntity<>(carCategoryService.getAllCarCategories(),HttpStatus.OK);
     }
 
     @PutMapping("/api/administrator/car-categories/{categoryId}")
