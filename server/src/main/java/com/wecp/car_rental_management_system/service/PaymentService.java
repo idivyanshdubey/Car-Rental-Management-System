@@ -10,7 +10,28 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+public class PaymentService{
+    
+    PaymentRepository paymentRepository;
+    Booking Repository bookingRepository;
+    @Autowired
+    public PaymentService(PaymentRepository paymentRepository) {
+        this.paymentRepository = paymentRepository;
+    }
 
-public class PaymentService {
-    // implement payment service
+    public Payment createPayment(Long BookingId,Payment payment){
+            Booking booking = bookingRepository.findById(BookingId);
+            payment.setBooking(booking);
+            return paymentRepository.save(payment);
+
+    }
+
+    public Payment getPaymentByBookingId(Long bookingId){
+        return paymentRepository.findPaymentByBookingId(bookingId);
+    }
+
+    public List<Payment> getAllPayment(){
+        return paymentRepository.findAll();
+    }
 }

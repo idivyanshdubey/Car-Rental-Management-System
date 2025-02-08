@@ -17,6 +17,9 @@ import java.util.List;
 
 public class AgentController {
 
+    @Autowired
+    PaymentService paymentService;
+
     @PostMapping("/api/agent/car")
     public ResponseEntity<Car> addCar(@RequestBody Car car) {
         // add a car and return created car
@@ -45,7 +48,7 @@ public class AgentController {
     @PostMapping("/api/agent/payment/{bookingId}")
     public ResponseEntity<Payment> createPayment(@PathVariable Long bookingId,
                                                    @RequestBody Payment paymentRequest) {
-        // create payment of a booking
+        return new ResponseEntity<Payment>(paymentService.createPayment(bookingId, paymentRequest),HttpStatus.OK);
     }
 }
 
