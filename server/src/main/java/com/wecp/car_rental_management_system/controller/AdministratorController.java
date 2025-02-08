@@ -4,6 +4,7 @@ package com.wecp.car_rental_management_system.controller;
 import com.wecp.car_rental_management_system.entity.Booking;
 import com.wecp.car_rental_management_system.entity.CarCategory;
 import com.wecp.car_rental_management_system.entity.Payment;
+import com.wecp.car_rental_management_system.repository.PaymentRepository;
 import com.wecp.car_rental_management_system.service.BookingService;
 import com.wecp.car_rental_management_system.service.CarCategoryService;
 import com.wecp.car_rental_management_system.service.PaymentService;
@@ -16,6 +17,9 @@ import java.util.List;
 
 
 public class AdministratorController {
+    @Autowired
+    PaymentRepository paymentRepository;
+
 
     @Autowired
     private BookingService bookingService;
@@ -43,6 +47,6 @@ public class AdministratorController {
 
     @GetMapping("/api/administrator/reports/payments")
     public ResponseEntity<List<Payment>> getAllPayments() {
-       // get all payments
+       return new ResponseEntity<List<Payment>>(paymentRepository.findAll(),HttpStatus.OK);
     }
 }
