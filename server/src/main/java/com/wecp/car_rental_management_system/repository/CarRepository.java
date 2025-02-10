@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long>{
     // implement jpa repository here
-    
+    List<Car> findByStatus(String status);
 }

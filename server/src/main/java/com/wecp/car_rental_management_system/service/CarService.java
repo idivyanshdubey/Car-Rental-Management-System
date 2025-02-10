@@ -11,4 +11,27 @@ import java.util.Optional;
 @Service
 public class CarService {
     // implement car service
+    @Autowired
+    private CarRepository carRepository;
+ 
+    public Car addCar(Car car){
+        return carRepository.save(car);
+    }
+
+    public Car getCarById(Long carId){
+        return carRepository.findById(carId).get();
+    }
+ 
+    public List<Car> getAllCars(){
+        return carRepository.findAll();
+    }
+ 
+    public Car updateCar(Long id, Car car){
+        Car c = carRepository.findById(id).get();
+        return carRepository.save(c);
+    }
+ 
+    public List<Car>getAvailableCars(){
+        return carRepository.findByStatus("available");
+    }
 }

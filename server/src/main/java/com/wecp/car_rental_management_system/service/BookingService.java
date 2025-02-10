@@ -1,5 +1,6 @@
 package com.wecp.car_rental_management_system.service;
 
+import com.wecp.car_rental_management_system.dto.BookingDto;
 import com.wecp.car_rental_management_system.entity.Booking;
 import com.wecp.car_rental_management_system.entity.Car;
 import com.wecp.car_rental_management_system.entity.User;
@@ -19,11 +20,35 @@ public class BookingService {
     private BookingRepository bookingRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CarService carService;
+
+    @Autowired
     public BookingService(BookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
     }
 
-    public List<Booking> getAllBooking(){
+    public Booking bookCar(Long userId, Long carId, BookingDto bookingDto){
+
+        Booking booking = new Booking();
+
+        booking.setRentalStartDate(bookingDto.getRentalStartDate());
+        booking.setRentalEndDate(bookingDto.getRentalEndDate());
+        
+        // Fetch the user and car details
+        User user = userService.getUserById(userId);
+        Car car = carService.getCarById(carId);
+
+        // Set the user and car details in the booking
+        booking.setUser(user);
+        booking.setCar(car);
+
+        return bookingRepository.save(booking);
+    }
+
+    public List<Booking> getAllBookings(){
         return bookingRepository.findAll();
     }
 

@@ -18,31 +18,37 @@ import java.util.List;
 public class AgentController {
 
     @Autowired
+    private CarService carService;
+
+    @Autowired
     private PaymentService paymentService;
     
     @Autowired
     private BookingService bookingService;
 
 
-    // @PostMapping("/api/agent/car")
-    // public ResponseEntity<Car> addCar(@RequestBody Car car) {
-    //     // add a car and return created car
-    // }
+    @PostMapping("/api/agent/car")
+    public ResponseEntity<Car> addCar(@RequestBody Car car) {
+        // add a car and return created car
+        return new ResponseEntity<Car>(carService.addCar(car), HttpStatus.OK);
+    }
 
-    // @GetMapping("/api/agent/cars")
-    // public ResponseEntity<List<Car>> getAllCars() {
-    //     // get all cars
-    // }
+    @GetMapping("/api/agent/cars")
+    public ResponseEntity<List<Car>> getAllCars() {
+        // get all cars
+        return new ResponseEntity<List<Car>>(carService.getAllCars(), HttpStatus.OK);
+    }
 
-    // @PutMapping("/api/agent/car/{carId}")
-    // public ResponseEntity<Car> updateCar(@PathVariable Long carId, @RequestBody Car updatedCar) {
-    //     // update a car
-    // }
+    @PutMapping("/api/agent/car/{carId}")
+    public ResponseEntity<Car> updateCar(@PathVariable Long carId, @RequestBody Car updatedCar) {
+        // update a car
+        return new ResponseEntity<Car>(carService.updateCar(carId, updatedCar), HttpStatus.OK);
+    }
 
     @GetMapping("/api/agent/bookings")
     public ResponseEntity<List<Booking>> getAllBookings() {
         // get all bookings
-        return new ResponseEntity<>(bookingService.getAllBooking(),HttpStatus.OK);
+        return new ResponseEntity<>(bookingService.getAllBookings(),HttpStatus.OK);
     }
 
     @PutMapping("/api/agent/bookings/{bookingId}/status")

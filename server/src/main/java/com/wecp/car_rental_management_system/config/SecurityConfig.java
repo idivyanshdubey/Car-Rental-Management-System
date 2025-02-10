@@ -16,8 +16,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
-public class SecurityConfig {
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     // configure the security of the application such that
     // /api/user/register and /api/user/login are permitted to all
@@ -37,4 +39,50 @@ public class SecurityConfig {
     // note that check the permission with respect to authority
     // for example hasAuthority("ADMINISTRATOR")
 
+    private final UserDetailsService userDetailsService;
+    private final JwtRequestFilter jwtRequestFilter;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService , JwtRequestFilter jwtRequestFilter , PasswordEncoder passwordEncoder)
+    {
+        this.userDetailsService = userDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/api/user/register" , "/api/user/login").permitAll()
+                .antMatchers(HttpMethod.POST , "/api/administrator/car-categories").hasAnyAuthority("ADMINISTRATOR")
+                .antMatchers(HttpMethod.GET , "/api/administrator/car-categories").hasAuthority("ADMINISTRATOR")
+                .antMatchers(HttpMethod.PUT , "/api/administrator/car-categories/{categoryId}").hasAuthority("ADMINISTRATOR")
+                .antMatchers(HttpMethod.GET , "/api/administrator/reports/bookings").hasAuthority("ADMINISTRATOR")
+                .antMatchers(HttpMethod.GET , "/api/administrator/reports/payments").hasAnyAuthority("ADMINISTRATOR")
+                .antMatchers(HttpMethod.POST , "/api/agent/car").hasAuthority("AGENT")
+                .antMatchers(HttpMethod.PUT , "/api/agent/car/{carId}").hasAuthority("AGENT")
+                .antMatchers(HttpMethod.GET , "/api/agent/bookings").hasAuthority("AGENT")
+                .antMatchers(HttpMethod.PUT , "/api/agent/bookings/{bookingId}/status").hasAnyAuthority("AGENT")
+                .antMatchers(HttpMethod.POST , "/api/agent/payment/{bookingId}").hasAnyAuthority("AGENT")
+                .antMatchers(HttpMethod.GET , "/api/customers/cars/available").hasAuthority("CUSTOMER")
+                .antMatchers(HttpMethod.POST , "/api/customers/booking").hasAuthority("CUSTOMER")
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+                http.addFilterBefore(jwtRequestFilter , UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 }

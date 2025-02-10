@@ -23,17 +23,21 @@ public class UserService implements UserDetailsService{
         return userRepository.save(user);
     }
 
-     public User getUserByUsername(String username) {
-            return userRepository.findByUsername(username);
-        }
+    public User getUserById(Long userId){
+        return userRepository.findById(userId).get();
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
     
-        @Override
-        public UserDetails loadUserByUsername(String username) {
-            User user = userRepository.findByUsername(username);
-            if(user == null){
-                throw new UsernameNotFoundException("User not found");
-            }
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new UsernameNotFoundException("User not found");
         }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+    }
     
 }

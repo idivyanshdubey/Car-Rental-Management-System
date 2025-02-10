@@ -17,17 +17,26 @@ import java.util.Optional;
 
 @RestController
 public class CustomerController {
-    // @GetMapping("/api/customers/cars/available")
-    // public ResponseEntity<List<Car>> getAvailableCars() {
-    //     // get all available cars.
-    //     // note: return all the cars where car status is "available"
-    // }
 
-    // @PostMapping("/api/customers/booking")
-    // public ResponseEntity<Booking> bookCar(@RequestParam Long userId, @RequestParam Long carId,
-    //                                        @RequestBody BookingDto bookingDto) {
-    //     // book a car
+    @Autowired
+    private CarService carService;
 
-    // }
+    @Autowired
+    private BookingService bookingService;
+
+    @GetMapping("/api/customers/cars/available")
+    public ResponseEntity<List<Car>> getAvailableCars() {
+        // get all available cars.
+        // note: return all the cars where car status is "available"
+        List<Car> availabCars = carService.getAvailableCars();
+        return ResponseEntity.ok(availabCars);
+    }
+
+    @PostMapping("/api/customers/booking")
+    public ResponseEntity<Booking> bookCar(@RequestParam Long userId, @RequestParam Long carId,
+                                           @RequestBody BookingDto bookingDto) {
+        // book a car
+        return new ResponseEntity<Booking>(bookingService.bookCar(userId, carId, bookingDto), HttpStatus.OK);
+    }
 
 }

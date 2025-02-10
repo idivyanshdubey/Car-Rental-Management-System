@@ -24,8 +24,8 @@ public class RegisterAndLoginController {
     @Autowired
     JwtUtil jwtUtil;
 
-    // @Autowired
-    // AuthenticationManager authenticationManager;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @Autowired
     private UserService userService;
@@ -36,21 +36,21 @@ public class RegisterAndLoginController {
       return ResponseEntity.ok(registeredUser);
     }
  
-    // @PostMapping("/api/user/login")
-    // public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
-    //     try{
-    //         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-    //     } catch(AuthenticationException e) {
-    //          throw new ResponseStatusException(HttpStatus.UNAUTHORIZED , "Invalid username or password" ,e);
-    //     }
-    //     final UserDetails userDetails = userService.loadUserByUsername(loginRequest.getUsername());
-    //     User foundUser = userService.getUserByUsername(loginRequest.getUsername());
-    //     final String token = jwtUtil.generateToken(loginRequest.getUsername());
-    //     String role = foundUser.getRole();
-    //     Long userId = foundUser.getId();
-    //     System.out.println("User Roles: " + role);
+    @PostMapping("/api/user/login")
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
+        try{
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        } catch(AuthenticationException e) {
+             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED , "Invalid username or password" ,e);
+        }
+        final UserDetails userDetails = userService.loadUserByUsername(loginRequest.getUsername());
+        User foundUser = userService.getUserByUsername(loginRequest.getUsername());
+        final String token = jwtUtil.generateToken(loginRequest.getUsername());
+        String role = foundUser.getRole();
+        Long userId = foundUser.getId();
+        System.out.println("User Roles: " + role);
         
-    //     return ResponseEntity.ok(new LoginResponse(userId,token,loginRequest.getUsername(), foundUser.getEmail(),role));
-    // }
+        return ResponseEntity.ok(new LoginResponse(userId,token,loginRequest.getUsername(), foundUser.getEmail(),role));
+    }
 }
 
