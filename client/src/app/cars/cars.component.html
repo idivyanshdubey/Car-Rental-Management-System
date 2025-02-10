@@ -1,1 +1,52 @@
-//todo: complete missing code.
+<div class="container">
+    <h2>Available Cars</h2>
+ 
+    <!-- Rental Date Form -->
+    <form [formGroup]="itemForm">
+      <div class="form-group">
+        <label for="rentalStartDate">Rental Start Date:</label>
+        <input
+          type="date"
+          id="rentalStartDate"
+          class="form-control"
+          formControlName="rentalStartDate"
+          required
+        />
+      </div>
+ 
+      <div class="form-group">
+        <label for="rentalEndDate">Rental End Date:</label>
+        <input
+          type="date"
+          id="rentalEndDate"
+          class="form-control"
+          formControlName="rentalEndDate"
+          required
+        />
+      </div>
+ 
+      <button type="submit" class="btn btn-primary" [disabled]="!itemForm.valid">
+        Search Cars
+      </button>
+    </form>
+ 
+    <!-- List of Available Cars -->
+    <div class="car-list" *ngIf="cars.length > 0; else noCars">
+      <div class="card" *ngFor="let car of cars">
+        <img [src]="car.imageUrl" alt="{{ car.name }}" class="car-image"/>
+        <div class="card-body">
+          <h3>{{ car.name }}</h3>
+          <p><strong>Model:</strong> {{ car.model }}</p>
+          <p><strong>Price per day:</strong> ${{ car.pricePerDay }}</p>
+          <button class="btn btn-success" (click)="bookCar(car.id)" [disabled]="!itemForm.valid">
+            Book Now
+          </button>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- No Cars Available Message -->
+    <ng-template #noCars>
+      <p>No cars available at the moment.</p>
+    </ng-template>
+  </div>

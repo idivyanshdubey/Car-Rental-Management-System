@@ -1,1 +1,21 @@
-//todo: complete missing code.
+ 
+<form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="username">Username</label>
+      <input id="username" formControlName="username" type="text" />
+      <div *ngIf="itemForm.get('username')?.invalid && itemForm.get('username')?.touched">
+        <small>Username is required.</small>
+      </div>
+    </div>
+ 
+    <div>
+      <label for="password">Password</label>
+      <input id="password" formControlName="password" type="password" />
+      <div *ngIf="itemForm.get('password')?.invalid && itemForm.get('password')?.touched">
+        <small>Password is required.</small>
+      </div>
+    </div>
+ 
+    <button type="submit" [disabled]="itemForm.invalid">Login</button>
+    <a [routerLink]="['/registration']">Register</a>
+</form>

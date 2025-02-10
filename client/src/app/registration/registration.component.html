@@ -1,1 +1,42 @@
-//todo: complete missing code.
+<form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email" />
+      <div *ngIf="itemForm.controls['email'].invalid && itemForm.controls['email'].touched">
+        <small *ngIf="itemForm.controls['email'].errors?.['required']">Email is required.</small>
+        <small *ngIf="itemForm.controls['email'].errors?.['email']">Invalid email format.</small>
+      </div>
+    </div>
+   
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" formControlName="password" type="password" />
+      <div *ngIf="itemForm.controls['password'].invalid && itemForm.controls['password'].touched">
+        <small *ngIf="itemForm.controls['password'].errors?.['required']">Password is required.</small>
+      </div>
+    </div>
+   
+    <div>
+      <label for="role">Role:</label>
+      <select id="role" formControlName="role">
+        <option value="">Select Role</option>
+        <option value="CUSTOMER">Customer</option>
+        <option value="ADMINISTRATOR">Administrator</option>
+        <option value="AGENT">Agent</option>
+      </select>
+      <div *ngIf="itemForm.controls['role'].invalid && itemForm.controls['role'].touched">
+        <small *ngIf="itemForm.controls['role'].errors?.['required']">Role is required.</small>
+      </div>
+    </div>
+   
+    <div>
+      <label for="username">Username:</label>
+      <input id="username" formControlName="username" type="text" />
+      <div *ngIf="itemForm.controls['username'].invalid && itemForm.controls['username'].touched">
+        <small *ngIf="itemForm.controls['username'].errors?.['required']">Username is required.</small>
+        <small *ngIf="itemForm.controls['username'].errors?.['minlength']">Username must be at least 6 characters.</small>
+      </div>
+    </div>
+   
+    <button type="submit" [disabled]="itemForm.invalid">Register</button>
+  </form>

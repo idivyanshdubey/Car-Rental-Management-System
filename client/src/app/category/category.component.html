@@ -1,1 +1,25 @@
-//todo: complete missing code.
+<div class="category-container">
+    <h2>Add Category</h2>
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name" type="text" />
+      <div *ngIf="itemForm.get('name')?.invalid && itemForm.get('name')?.touched">
+        Name is required.
+      </div>
+     
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description"></textarea>
+      <div *ngIf="itemForm.get('description')?.invalid && itemForm.get('description')?.touched">
+        Description is required.
+      </div>
+     
+      <label for="baseRate">Base Rate:</label>
+      <input id="baseRate" formControlName="baseRate" type="number" />
+      <div *ngIf="itemForm.get('baseRate')?.invalid && itemForm.get('baseRate')?.touched">
+        Base Rate is required and must be a positive number.
+      </div>
+     
+      <button type="submit" [disabled]="itemForm.invalid">Add Category</button>
+    </form>
+  </div>
+ 

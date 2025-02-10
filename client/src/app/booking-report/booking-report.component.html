@@ -1,1 +1,29 @@
-//todo: complete missing code.
+<div class="booking-report-container">
+  <h2>Booking Report</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+        <th>Total Amount</th>
+        <th>Payment Status</th>
+        <th>User Name</th>
+        <th>Car Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of bookings">
+        <td>{{ booking.id }}</td>
+        <td>{{ booking.rentalStartDate }}</td>
+        <td>{{ booking.rentalEndDate }}</td>
+        <td>{{ booking.status }}</td>
+        <td>{{ booking.totalAmount }}</td>
+        <td>{{ booking.payment.paymentStatus }}</td>
+        <td>{{ booking.user.username }}</td>
+        <td>{{ booking.car.make }} {{ booking.car.model }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

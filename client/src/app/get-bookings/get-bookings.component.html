@@ -1,1 +1,51 @@
-//todo: complete missing code.
+<div class="container">
+    <h2>Bookings</h2>
+    <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div>
+    <div *ngIf="showMessage" class="alert alert-success">{{ responseMessage }}</div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Car</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let booking of bookings">
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.car.make }} {{ booking.car.model }}</td>
+                <td>{{ booking.rentalStartDate | date }}</td>
+                <td>{{ booking.rentalEndDate | date }}</td>
+                <td>{{ booking.status }}</td>
+                <td>
+                    <button class="btn btn-primary" (click)="completeBooking(booking)">Complete</button>
+                    <button class="btn btn-danger" (click)="updateBookingStatus(booking.id, 'Cancelled')">Cancel</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+        <!-- Show form only when a booking is selected for payment -->
+    <form *ngIf="selectedBooking" [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+        <h3>Process Payment for Booking ID: {{ selectedBooking.id }}</h3>
+        <h4>Amount to be paid: {{ amountToBePaid }}</h4>
+        <h4>Payment Date: {{ getCurrentDate() }}</h4>
+        <div class="form-group">
+            <label for="paymentMethod">Payment Method</label>
+            <select id="paymentMethod" formControlName="paymentMethod" class="form-control" required>
+                <option value="">Select</option>
+                <option value="credit-card">Credit Card</option>
+                <option value="debit-card">Debit Card</option>
+                <option value="paypal">Paypal</option>
+                <option value="cashOnDelivery">Cash On Delivery</option>
+            </select>
+        </div>
+        <h4>Payment Status: {{ paymentStatus }}</h4>
+        <button type="submit" class="btn btn-primary" [disabled]="paymentStatus === 'completed'">Process Payment</button>
+    </form>
+</div>

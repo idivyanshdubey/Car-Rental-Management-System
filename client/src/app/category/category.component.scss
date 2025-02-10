@@ -1,0 +1,45 @@
+.category-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+ 
+  .category-container h2 {
+    text-align: center;
+  }
+ 
+  .category-container form {
+    display: flex;
+    flex-direction: column;
+  }
+ 
+  .category-container label {
+    margin-top: 10px;
+  }
+ 
+  .category-container input {
+    padding: 8px;
+    margin-top: 5px;
+  }
+ 
+  .category-container button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+ 
+  .category-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+ 
+  .category-container div {
+    color: red;
+    font-size: 12px;
+  }

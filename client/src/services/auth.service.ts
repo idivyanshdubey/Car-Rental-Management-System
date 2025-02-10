@@ -48,4 +48,8 @@ export class AuthService {
   
     localStorage.setItem('userId',userid);
   }
+
+  getUserId(): number {
+    return Number(localStorage.getItem('userId')) || 0;
+  }
 }
