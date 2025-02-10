@@ -10,6 +10,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking,Long>{
     // implement jpa repository here
-    @Query("UPDATE Booking b SET b.status = :status WHERE b.id = :id")
-    int updateBookingStatus(@Param("id") Long id, @Param("status") String status);
 }

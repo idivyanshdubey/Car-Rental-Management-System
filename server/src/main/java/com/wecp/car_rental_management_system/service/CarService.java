@@ -27,8 +27,8 @@ public class CarService {
     }
  
     public Car updateCar(Long id, Car car){
-        Car c = carRepository.findById(id).get();
-        return carRepository.save(c);
+        car.setId(id);
+        return carRepository.save(car);
     }
  
     public List<Car>getAvailableCars(){

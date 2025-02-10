@@ -54,8 +54,9 @@ public class BookingService {
     }
 
     public Booking updateBookingStatus(Long bookingId, String status){
-        bookingRepository.updateBookingStatus(bookingId, status);
-        return bookingRepository.findById(bookingId).get();
+        Booking booking  =  bookingRepository.findById(bookingId).get();
+        booking.setStatus(status);
+        return bookingRepository.save(booking);
     }
 
 
