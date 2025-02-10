@@ -18,7 +18,7 @@ public class CarCategory {
     private String description;
     private Double baseRate;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Car> cars;
     
         // Constructors

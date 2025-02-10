@@ -16,7 +16,7 @@ public class User {
     private String email;
     private String role;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings;
 
     public User(){}

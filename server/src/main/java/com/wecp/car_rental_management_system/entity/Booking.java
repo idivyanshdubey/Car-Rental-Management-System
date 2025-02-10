@@ -25,11 +25,9 @@ public class Booking {
     Payment payment;
 
     @ManyToOne
-    @JsonIgnore
     User user;
 
     @ManyToOne
-    @JsonIgnore
     Car car;
 
     public Booking(Long id, Date rentalStartDate, Date rentalEndDate, String status, Double totalAmount,

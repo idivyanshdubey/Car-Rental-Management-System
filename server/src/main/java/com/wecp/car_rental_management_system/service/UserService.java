@@ -18,8 +18,16 @@ public class UserService implements UserDetailsService{
     @Autowired
     private UserRepository userRepository;
 
-    public User registerUser(User user)
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public User registerUser(User user) throws Exception
     {
+        User oldUser = userRepository.findByUsername(user.getUsername());
+        if(oldUser != null){
+            throw new Exception("User name is Unavailable: " + user.getUsername());
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

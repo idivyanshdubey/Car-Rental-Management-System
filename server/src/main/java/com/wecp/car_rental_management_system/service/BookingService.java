@@ -17,6 +17,7 @@ import java.util.Optional;
 @Service
 public class BookingService {
     // implement booking service
+    @Autowired
     private BookingRepository bookingRepository;
 
     @Autowired
@@ -25,10 +26,10 @@ public class BookingService {
     @Autowired
     private CarService carService;
 
-    @Autowired
-    public BookingService(BookingRepository bookingRepository) {
-        this.bookingRepository = bookingRepository;
-    }
+    // @Autowired
+    // public BookingService(BookingRepository bookingRepository) {
+    //     this.bookingRepository = bookingRepository;
+    // }
 
     public Booking bookCar(Long userId, Long carId, BookingDto bookingDto){
 

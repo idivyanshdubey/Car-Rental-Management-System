@@ -31,9 +31,12 @@ public class RegisterAndLoginController {
     private UserService userService;
     
     @PostMapping("/api/user/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-      User registeredUser = userService.registerUser(user);
-      return ResponseEntity.ok(registeredUser);
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        try{
+            return ResponseEntity.ok(userService.registerUser(user));
+        } catch(Exception ex) {
+            return new ResponseEntity<>(ex.getMessage() , HttpStatus.CONFLICT);
+        }
     }
  
     @PostMapping("/api/user/login")
