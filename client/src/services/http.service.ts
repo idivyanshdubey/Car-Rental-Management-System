@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class HttpService {
-  private serverName = environment.apiUrl + '/proxy/5000';
+  private serverName = environment.apiUrl;
  
   constructor(private http: HttpClient, private authService: AuthService) {}
  
@@ -56,9 +56,9 @@ export class HttpService {
     );
   }
  
-  updateBookingStatus(bookingId: number, status: string): Observable<any> {
+  updateBookingStatus(bookingId: number): Observable<any> {
     return this.http.put(
-      `${this.serverName}/api/agent/bookings/${bookingId}/status?status=${status}`,
+      `${this.serverName}/api/agent/bookings/${bookingId}/status?status=booked`,
       {},
       { headers: this.getHeaders() }
     );
