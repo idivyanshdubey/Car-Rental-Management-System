@@ -16,7 +16,7 @@ export class RegistrationComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       role: [null, Validators.required],
-      username: ['', [Validators.required, Validators.minLength(6)]]
+      username: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
  

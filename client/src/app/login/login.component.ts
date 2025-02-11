@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
       this.httpService.Login({ username, password }).subscribe(
         (response: any) => {
           this.authService.saveToken(response.token);
+          this.authService.SetRole(response.role);
           console.log("token saved");
           this.router.navigate(['/dashboard']);
         },

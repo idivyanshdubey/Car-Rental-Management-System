@@ -9,7 +9,7 @@ import { HttpService } from '../../services/http.service';
   templateUrl: './add-car.component.html',
   styleUrls: ['./add-car.component.scss']
 })
-export class AddCarComponent{
+export class AddCarComponent implements OnInit{
  
   itemForm: FormGroup;
   carCategories: any[] = [];
@@ -18,16 +18,15 @@ export class AddCarComponent{
   showMessage: boolean = false;
   responseMessage: string = '';
   registrationNumber:string='';
+  category: number| null = null;
  
   constructor(private formBuilder: FormBuilder, private httpService: HttpService) {
     this.itemForm = this.formBuilder.group({
       make: ['', Validators.required],
       model: ['', Validators.required],
       manufactureYear: ['', Validators.required],
-      Number: ['', Validators.required],
       status: ['', Validators.required],
       rentalRatePerDay: [0, Validators.required],
-      category: ['', Validators.required],
       registrationNumber:['',Validators.required]
     });
   }
@@ -37,8 +36,10 @@ export class AddCarComponent{
   }
  
   getCarCategories() {
+    console.log('in get car categories');
     this.httpService.getAllCategories().subscribe(
       (data: any) => {
+        console.log(data);
         this.carCategories = data;
       },
       error => {
@@ -51,6 +52,9 @@ export class AddCarComponent{
  
   onSubmit() {
     if (this.itemForm.valid) {
+      // const carCategory = this.carCategories.filter((cat) => {
+      //   return cat.id === this.category;
+      // });
       this.httpService.createCar(this.itemForm.value).subscribe(
         (response: any) => {
           this.showMessage = true;
@@ -63,6 +67,9 @@ export class AddCarComponent{
           console.error('Error adding car:', error);
         }
       );
+    }else{
+      this.errorMessage="Form values invalid";
+      this.showError=true;
     }
   }
 } //todo: complete missing code.
