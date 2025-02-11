@@ -61,7 +61,7 @@ export class GetBookingsComponent implements OnInit {
   }
  
   updateBookingStatus(bookingId: number, status: string) {    
-    this.httpService.updateBookingStatus(bookingId, status).subscribe(        
+    this.httpService.updateBookingStatus(bookingId).subscribe(        
       (response: any) => {        
         this.showMessage = true;        
         this.responseMessage = "Booking status updated successfully!";        
