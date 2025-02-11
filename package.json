@@ -11,7 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.9",
+<<<<<<< HEAD
     "bytenode": "^1.5.6",
+=======
+    "bytenode": "^1.5.7",
+>>>>>>> e0b21575b47fbaa16c2b2d1158728d1808601488
     "junit-report-merger": "^6.0.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
