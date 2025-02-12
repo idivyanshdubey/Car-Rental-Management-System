@@ -4,6 +4,7 @@ This project is a Car Rental Management System built using a combination of Java
 
 Project Structure
 The project consists of the following main components:
+
 Java: Backend logic and APIs.
 TypeScript: Client-side scripting.	
 HTML: Web pages structure.	
