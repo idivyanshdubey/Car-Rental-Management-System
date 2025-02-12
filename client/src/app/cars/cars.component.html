@@ -1,10 +1,11 @@
-<div class="container">
-    <h2>Available Cars</h2>
- 
-    <!-- Rental Date Form -->
-    <form [formGroup]="itemForm">
-      <div class="form-group">
-        <label for="rentalStartDate">Rental Start Date:</label>
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Available Cars</h2>
+
+  <!-- Rental Date Form -->
+  <form [formGroup]="itemForm" class="mb-4 p-3 bg-light rounded shadow">
+    <div class="row">
+      <div class="col-md-5">
+        <label for="rentalStartDate" class="form-label">Rental Start Date:</label>
         <input
           type="date"
           id="rentalStartDate"
@@ -13,9 +14,9 @@
           required
         />
       </div>
- 
-      <div class="form-group">
-        <label for="rentalEndDate">Rental End Date:</label>
+
+      <div class="col-md-5">
+        <label for="rentalEndDate" class="form-label">Rental End Date:</label>
         <input
           type="date"
           id="rentalEndDate"
@@ -24,29 +25,41 @@
           required
         />
       </div>
- 
-      <button type="submit" class="btn btn-primary" [disabled]="!itemForm.valid">
-        Search Cars
-      </button>
-    </form>
- 
-    <!-- List of Available Cars -->
-    <div class="car-list" *ngIf="cars.length > 0; else noCars">
-      <div class="card" *ngFor="let car of cars">
-        <img [src]="car.imageUrl" alt="{{ car.name }}" class="car-image"/>
+
+      <div class="col-md-2 d-flex align-items-end">
+        <button
+          type="button"
+          class="btn btn-primary w-100"
+          [disabled]="!itemForm.valid"
+          (click)="filterCars()"
+        >
+          Search Cars
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- List of Available Cars -->
+  <div *ngIf="filteredCars.length > 0; else noCars" class="row">
+    <div class="col-md-4 mb-4" *ngFor="let car of filteredCars">
+      <div class="card shadow-sm">
+        <img [src]="car.imageUrl || 'assets/default-car.jpg'" alt="{{ car.make }} {{ car.model }}" class="card-img-top car-image">
         <div class="card-body">
-          <h3>{{ car.name }}</h3>
-          <p><strong>Model:</strong> {{ car.model }}</p>
-          <p><strong>Price per day:</strong> ${{ car.pricePerDay }}</p>
-          <button class="btn btn-success" (click)="bookCar(car.id)" [disabled]="!itemForm.valid">
+          <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
+          <p class="card-text"><strong>Manufacture Year:</strong>{{ car.manufactureYear }}</p>
+          <p class="card-text"><strong>Price per day:</strong> ${{ car.rentalRatePerDay }}</p>
+          <button class="btn btn-success w-100" (click)="bookCar(car.id)" [disabled]="!itemForm.valid">
             Book Now
           </button>
         </div>
       </div>
     </div>
- 
-    <!-- No Cars Available Message -->
-    <ng-template #noCars>
-      <p>No cars available at the moment.</p>
-    </ng-template>
   </div>
+
+  <!-- No Cars Available Message -->
+  <ng-template #noCars>
+    <div class="alert alert-warning text-center mt-4">
+      <p>No available cars for the selected date range.</p>
+    </div>
+  </ng-template>
+</div>

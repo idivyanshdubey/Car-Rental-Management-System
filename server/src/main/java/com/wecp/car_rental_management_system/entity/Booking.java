@@ -22,6 +22,7 @@ public class Booking {
     String paymentStatus;
 
     @OneToOne
+    @JsonIgnore
     Payment payment;
 
     @ManyToOne

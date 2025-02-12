@@ -65,5 +65,18 @@
         </div>
       </div>
     </ng-container>
+    
+    <ng-container *ngIf="userRole === 'CUSTOMER'">
+      <div class="col-md-8">
+        <div class="card shadow">
+          <div class="card-header bg-warning text-dark">
+            Available Cars
+          </div>
+          <div class="card-body">
+            <app-cars></app-cars>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

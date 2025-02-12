@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class BookingService {
@@ -31,22 +32,43 @@ public class BookingService {
     //     this.bookingRepository = bookingRepository;
     // }
 
-    public Booking bookCar(Long userId, Long carId, BookingDto bookingDto){
-
+    public Booking bookCar(Long userId, Long carId, BookingDto bookingDto) {
         Booking booking = new Booking();
-
+    
         booking.setRentalStartDate(bookingDto.getRentalStartDate());
         booking.setRentalEndDate(bookingDto.getRentalEndDate());
-        
+        booking.setStatus("Pending");
+    
         // Fetch the user and car details
         User user = userService.getUserById(userId);
         Car car = carService.getCarById(carId);
-
+    
+        // Calculate the rental duration in days, rounding up if more than an hour over full days
+        long rentalDays = getRoundedDays(bookingDto.getRentalStartDate(), bookingDto.getRentalEndDate());
+    
+        // Ensure rental days is at least 1
+        rentalDays = Math.max(rentalDays, 1);
+    
+        // Calculate the total amount
+        double totalAmount = rentalDays * car.getRentalRatePerDay();
+        booking.setTotalAmount(totalAmount);
+    
         // Set the user and car details in the booking
         booking.setUser(user);
         booking.setCar(car);
-
+    
         return bookingRepository.save(booking);
+    }
+    
+    // Helper method to calculate the difference in days, rounding up if extra hours exist
+    private long getRoundedDays(Date startDate, Date endDate) {
+        long diffInMillies = endDate.getTime() - startDate.getTime();
+        
+        long fullDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        long remainingHours = TimeUnit.HOURS.convert(diffInMillies % TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+    
+        // If there's at least 1 extra hour, round up
+        return (remainingHours > 0) ? fullDays + 1 : fullDays;
     }
 
     public List<Booking> getAllBookings(){

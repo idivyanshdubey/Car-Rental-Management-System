@@ -19,6 +19,7 @@ public class CarCategory {
     private Double baseRate;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Car> cars;
     
         // Constructors

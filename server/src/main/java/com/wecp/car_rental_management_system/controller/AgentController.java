@@ -60,7 +60,7 @@ public class AgentController {
     @PostMapping("/api/agent/payment/{bookingId}")
     public ResponseEntity<Payment> createPayment(@PathVariable Long bookingId,
                                                    @RequestBody Payment paymentRequest) {
-        return new ResponseEntity<Payment>(paymentService.createPayment(bookingId, paymentRequest),HttpStatus.OK);
+        return new ResponseEntity<>(paymentService.createPayment(bookingId, paymentRequest),HttpStatus.OK);
     }
 }
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService implements UserDetailsService{
@@ -34,7 +35,7 @@ public class UserService implements UserDetailsService{
     }
 
     public User getUserById(Long userId){
-        return userRepository.findById(userId).get();
+        return userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("No Such element found"));
     }
 
     public User getUserByUsername(String username) {

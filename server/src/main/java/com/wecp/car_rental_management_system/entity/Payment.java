@@ -1,6 +1,9 @@
 package com.wecp.car_rental_management_system.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 
@@ -11,10 +14,14 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     Double amount;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
     Date paymentDate;
     String paymentMethod;
     String paymentStatus;
-    @OneToOne
+
+    @OneToOne(mappedBy = "payment",cascade = CascadeType.ALL)
     Booking booking;
 
     public Payment(Long id, Double amount, Date paymentDate, String paymentMethod, String paymentStatus,

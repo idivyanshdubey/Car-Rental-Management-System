@@ -24,6 +24,7 @@ public class Car {
     CarCategory category;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    @JsonIgnore
     List<Booking> bookings;
 
     public Long getId() {

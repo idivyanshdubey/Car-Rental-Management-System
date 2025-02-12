@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
         (response: any) => {
           this.authService.saveToken(response.token);
           this.authService.SetRole(response.role);
+          this.authService.saveUserId(response.userId);
           console.log("token saved");
           this.router.navigate(['/dashboard']);
         },
