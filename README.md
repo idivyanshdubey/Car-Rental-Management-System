@@ -19,34 +19,46 @@ JavaScript: Additional client-side functionality.
 
 Recent Commits	
 Here are some of the recent commits:	
-Update README.md by Divyansh Dubey	
+
+Update README.md by Divyansh Dubey
+
 Update add-car.component.html by Divyansh Dubey
+
 Test case passed by username	
+
 For more details on commits, visit the commits page.
 
-Features
+Features:
 Manage car rentals efficiently.
+
 User-friendly interface.
+
 Secure and scalable backend.
 	
 Installation
 Clone the repository:
 Code	
 git clone https://github.com/idivyanshdubey/Car-Rental-Management-System.git	
+
 Navigate to the project directory:
 Code
 cd Car-Rental-Management-System	
+
 Install the necessary dependencies:
 Code
 npm install
+
 Start the application:
 Code
 npm start
 	
 Usage
 Register and login to the system.
+
 Add, update, and delete car information.
+
 Book and manage car rentals.
+
 Generate reports and analytics.
 
 Contributing
