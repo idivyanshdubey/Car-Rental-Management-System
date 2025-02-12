@@ -6,10 +6,15 @@ Project Structure
 The project consists of the following main components:
 
 Java: Backend logic and APIs.
-TypeScript: Client-side scripting.	
-HTML: Web pages structure.	
-SCSS: Styling for the web pages.	
-Shell: Scripts for automation and setup.	
+
+TypeScript: Client-side scripting.
+
+HTML: Web pages structure.
+
+SCSS: Styling for the web pages.
+
+Shell: Scripts for automation and setup.
+
 JavaScript: Additional client-side functionality.
 
 Recent Commits	
