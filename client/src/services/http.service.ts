@@ -39,6 +39,10 @@ export class HttpService {
   getCars(): Observable<any> {
     return this.http.get(`${this.serverName}/api/customers/cars/available`, { headers: this.getHeaders() });
   }
+
+  getAllCars(): Observable<any> {
+    return this.http.get(`${this.serverName}/api/agent/cars`, { headers: this.getHeaders() });
+  }
  
   bookACar(details: any, userId: number, carId: number): Observable<any> {
     return this.http.post(
@@ -56,9 +60,9 @@ export class HttpService {
     );
   }
  
-  updateBookingStatus(bookingId: number): Observable<any> {
+  updateBookingStatus(bookingId: number, status: string): Observable<any> {
     return this.http.put(
-      `${this.serverName}/api/agent/bookings/${bookingId}/status?status=booked`,
+      `${this.serverName}/api/agent/bookings/${bookingId}/status?status=${status}`,
       {},
       { headers: this.getHeaders() }
     );

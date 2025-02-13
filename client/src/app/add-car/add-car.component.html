@@ -1,61 +1,93 @@
-<div class="container">
-    <h2>Car Management</h2>
+<div class="add-car">
+  <div class="navbar">
+    <h2 class="nav-title">Car Management</h2>
+    <a routerLink="/dashboard" class="nav-link">Dashboard</a>
+  </div>
+
+  <div class="container">
     <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+      <h3>{{ isEditMode ? 'Update Car' : 'Add Car' }}</h3>
+
       <div class="form-group">
         <label for="make">Make</label>
         <input type="text" id="make" formControlName="make" class="form-control">
         <div *ngIf="itemForm.get('make')?.invalid && itemForm.get('make')?.touched">
-            <div *ngIf="itemForm.get('make')?.errors?.['required']">Maker name is required</div>
+          <div *ngIf="itemForm.get('make')?.errors?.['required']">Maker name is required</div>
         </div>
       </div>
+
       <div class="form-group">
         <label for="model">Model</label>
-        <input type="text" id="model" formControlName="model" class="form-control" required>
+        <input type="text" id="model" formControlName="model" class="form-control">
         <div *ngIf="itemForm.get('model')?.invalid && itemForm.get('model')?.touched">
-            <div *ngIf="itemForm.get('model')?.errors?.['required']">Model name is required</div>
+          <div *ngIf="itemForm.get('model')?.errors?.['required']">Model name is required</div>
         </div>
       </div>
+
       <div class="form-group">
         <label for="manufactureYear">Manufacture Year</label>
-        <input type="text" id="manufactureYear" formControlName="manufactureYear" class="form-control" required>
-        <div *ngIf="itemForm.get('manufactureYear')?.invalid && itemForm.get('model')?.touched">
-            <div *ngIf="itemForm.get('manufactureYear')?.errors?.['required']">manufactureYear is required</div>
-        </div>
+        <input type="text" id="manufactureYear" formControlName="manufactureYear" class="form-control">
       </div>
+
       <div class="form-group">
         <label for="registrationNumber">Registration Number</label>
-        <input type="text" id="registrationNumber" formControlName="registrationNumber" class="form-control" required>
-        <div *ngIf="itemForm.get('registrationNumber')?.invalid && itemForm.get('registrationNumber')?.touched">
-            <div *ngIf="itemForm.get('registrationNumber')?.errors?.['required']">Registration Number is required</div>
-        </div>
+        <input type="text" id="registrationNumber" formControlName="registrationNumber" class="form-control">
       </div>
+
       <div class="form-group">
         <label for="status">Status</label>
-        <select id="status" formControlName="status" class="form-control" required>
+        <select id="status" formControlName="status" class="form-control">
           <option value="available">Available</option>
           <option value="booked">Booked</option>
         </select>
-        <div *ngIf="itemForm.get('status')?.invalid && itemForm.get('status')?.touched">
-            <div *ngIf="itemForm.get('status')?.errors?.['required']">Status is required</div>
-        </div>
-       
       </div>
+
       <div class="form-group">
         <label for="rentalRatePerDay">Rental Rate Per Day</label>
-        <input type="number" id="rentalRatePerDay" formControlName="rentalRatePerDay" class="form-control" required>
-        <div *ngIf="itemForm.get('rentalRatePerDay')?.invalid && itemForm.get('rentalRatePerDay')?.touched">
-            <div *ngIf="itemForm.get('rentalRatePerDay')?.errors?.['required']">RentalRatePerDay is required</div>
-        </div>
+        <input type="number" id="rentalRatePerDay" formControlName="rentalRatePerDay" class="form-control">
       </div>
+
       <div class="form-group">
         <label for="category">Category</label>
-        <select id="category" class="form-control" [(ngModel)]="category" required>
-          <option *ngFor="let cat of carCategories" [value]="cat.id">{{ cat.name }}</option>
+        <select id="category" class="form-control" formControlName="category">
+          <option *ngFor="let carCat of carCategories" [value]="carCat.id">{{ carCat.name }}</option>
         </select>
       </div>
-      
-      <button type="submit" class="btn btn-primary" >Add Car</button>
+
+      <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update Car' : 'Add Car' }}</button>
     </form>
+
     <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div>
     <div *ngIf="showMessage" class="alert alert-success">{{ responseMessage }}</div>
+
+    <h3 class="mt-4">Car List</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Year</th>
+          <th>Reg. Number</th>
+          <th>Status</th>
+          <th>Rate</th>
+          <th>Category</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let car of cars">
+          <td>{{ car.make }}</td>
+          <td>{{ car.model }}</td>
+          <td>{{ car.manufactureYear }}</td>
+          <td>{{ car.registrationNumber }}</td>
+          <td>{{ car.status }}</td>
+          <td>{{ car.rentalRatePerDay }}</td>
+          <td>{{ car.category.name }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="editCar(car)">Update</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+</div>

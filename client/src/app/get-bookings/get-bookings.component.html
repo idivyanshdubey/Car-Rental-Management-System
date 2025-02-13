@@ -26,8 +26,8 @@
                 <td>{{ booking.status }}</td>
                 <td>{{ booking.user.username }}</td>
                 <td>
-                    <button *ngIf="booking.status !== 'Booked'" class="btn btn-success" (click)="acceptBooking(booking.id)">Accept</button>
-                    <button *ngIf="booking.status === 'Booked'" class="btn btn-primary" (click)="showPaymentForm(booking)">Payment</button>
+                    <button *ngIf="booking.status === 'Pending'" class="btn btn-success" (click)="acceptBooking(booking.id, 'Process Payment')">Accept</button>
+                    <button *ngIf="booking.status === 'Process Payment'" class="btn btn-primary" (click)="showPaymentForm(booking)">Payment</button>
                 </td>
             </tr>
         </tbody>

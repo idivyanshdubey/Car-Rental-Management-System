@@ -56,7 +56,9 @@ public class BookingService {
         // Set the user and car details in the booking
         booking.setUser(user);
         booking.setCar(car);
-    
+
+        booking.setPaymentStatus("Pending");
+        
         return bookingRepository.save(booking);
     }
     
@@ -78,6 +80,15 @@ public class BookingService {
     public Booking updateBookingStatus(Long bookingId, String status){
         Booking booking  =  bookingRepository.findById(bookingId).get();
         booking.setStatus(status);
+
+        Long carId = booking.getCar().getId();
+
+        Car car = carService.getCarById(carId);
+
+        car.setStatus(status);
+
+        booking.setCar(car);
+
         return bookingRepository.save(booking);
     }
 

@@ -30,7 +30,7 @@ public class AgentController {
     @PostMapping("/api/agent/car")
     public ResponseEntity<Car> addCar(@RequestBody Car car) {
         // add a car and return created car
-        return new ResponseEntity<Car>(carService.addCar(car), HttpStatus.OK);
+        return new ResponseEntity<Car>(carService.addCar(car), HttpStatus.CREATED);
     }
 
     @GetMapping("/api/agent/cars")

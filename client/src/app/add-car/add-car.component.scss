@@ -1,0 +1,68 @@
+/* Background Styling */
+.add-car {
+    background: url('../../assets/add_car.gif') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: gold;
+}
+
+.nav-title {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.nav-link {
+    color: gold;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+/* Form Styling */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background: gold;
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: goldenrod;
+}
