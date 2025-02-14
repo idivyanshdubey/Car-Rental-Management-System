@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class HttpService {
+  
   private serverName = environment.apiUrl;
  
   constructor(private http: HttpClient, private authService: AuthService) {}
@@ -50,6 +51,10 @@ export class HttpService {
       details,
       { headers: this.getHeaders() }
     );
+  }
+
+  getBookingsByUserId(userId: number): Observable<any> {
+    return this.http.get(`${this.serverName}/api/customers/bookings/${userId}`, { headers: this.getHeaders() });
   }
  
   bookingPayment(details: any, bookingId: number): Observable<any> {

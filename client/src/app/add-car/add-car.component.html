@@ -1,93 +1,126 @@
-<div class="add-car">
-  <div class="navbar">
-    <h2 class="nav-title">Car Management</h2>
-    <a routerLink="/dashboard" class="nav-link">Dashboard</a>
-  </div>
+<div class="add-car-container">
+  <nav class="navbar navbar-dark">
+    <div class="container-fluid">
+      <h2 class="navbar-brand animate__animated animate__fadeIn">
+        <i class="fas fa-car-alt"></i> Car Management
+      </h2>
+      <a routerLink="/dashboard" class="nav-link custom-btn animate__animated animate__fadeIn">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
+  </nav>
 
-  <div class="container">
-    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
-      <h3>{{ isEditMode ? 'Update Car' : 'Add Car' }}</h3>
+  <div class="content-container">
+    <div class="row">
+      <div class="col-md-6 animate__animated animate__fadeInLeft">
+        <div class="form-card">
+          <div class="card-header">
+            <i class="fas fa-{{ isEditMode ? 'edit' : 'plus-circle' }}"></i>
+            {{ isEditMode ? 'Update Car' : 'Add Car' }}
+          </div>
+          <div class="card-body">
+            <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="make"><i class="fas fa-industry"></i> Make</label>
+                <input type="text" id="make" formControlName="make" class="form-control">
+                <div class="error-message" *ngIf="itemForm.get('make')?.invalid && itemForm.get('make')?.touched">
+                  <i class="fas fa-exclamation-circle"></i> Maker name is required
+                </div>
+              </div>
 
-      <div class="form-group">
-        <label for="make">Make</label>
-        <input type="text" id="make" formControlName="make" class="form-control">
-        <div *ngIf="itemForm.get('make')?.invalid && itemForm.get('make')?.touched">
-          <div *ngIf="itemForm.get('make')?.errors?.['required']">Maker name is required</div>
+              <!-- Repeat for other form fields with appropriate icons -->
+              <div class="form-group">
+                <label for="model"><i class="fas fa-car-side"></i> Model</label>
+                <input type="text" id="model" formControlName="model" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label for="manufactureYear"><i class="fas fa-calendar-alt"></i> Manufacture Year</label>
+                <input type="text" id="manufactureYear" formControlName="manufactureYear" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label for="registrationNumber"><i class="fas fa-id-card"></i> Registration Number</label>
+                <input type="text" id="registrationNumber" formControlName="registrationNumber" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label for="status"><i class="fas fa-info-circle"></i> Status</label>
+                <select id="status" formControlName="status" class="form-control">
+                  <option value="available">Available</option>
+                  <option value="booked">Booked</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="rentalRatePerDay"><i class="fas fa-dollar-sign"></i> Rental Rate Per Day</label>
+                <input type="number" id="rentalRatePerDay" formControlName="rentalRatePerDay" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label for="category"><i class="fas fa-tags"></i> Category</label>
+                <select id="category" class="form-control" formControlName="category">
+                  <option *ngFor="let carCat of carCategories" [value]="carCat.id">{{ carCat.name }}</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-submit">
+                <i class="fas fa-{{ isEditMode ? 'save' : 'plus' }}"></i>
+                {{ isEditMode ? 'Update Car' : 'Add Car' }}
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="alert alert-danger animate__animated animate__fadeIn" *ngIf="showError">
+          <i class="fas fa-exclamation-triangle"></i> {{ errorMessage }}
+        </div>
+        <div class="alert alert-success animate__animated animate__fadeIn" *ngIf="showMessage">
+          <i class="fas fa-check-circle"></i> {{ responseMessage }}
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="model">Model</label>
-        <input type="text" id="model" formControlName="model" class="form-control">
-        <div *ngIf="itemForm.get('model')?.invalid && itemForm.get('model')?.touched">
-          <div *ngIf="itemForm.get('model')?.errors?.['required']">Model name is required</div>
+      <div class="col-md-6 animate__animated animate__fadeInRight">
+        <div class="table-card">
+          <div class="card-header">
+            <i class="fas fa-list"></i> Car List
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let car of cars">
+                    <td>{{ car.make }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.manufactureYear }}</td>
+                    <td>
+                      <span class="status-badge" [class.available]="car.status === 'available'">
+                        {{ car.status }}
+                      </span>
+                    </td>
+                    <td>
+                      <button class="btn btn-edit" (click)="editCar(car)">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="form-group">
-        <label for="manufactureYear">Manufacture Year</label>
-        <input type="text" id="manufactureYear" formControlName="manufactureYear" class="form-control">
-      </div>
-
-      <div class="form-group">
-        <label for="registrationNumber">Registration Number</label>
-        <input type="text" id="registrationNumber" formControlName="registrationNumber" class="form-control">
-      </div>
-
-      <div class="form-group">
-        <label for="status">Status</label>
-        <select id="status" formControlName="status" class="form-control">
-          <option value="available">Available</option>
-          <option value="booked">Booked</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="rentalRatePerDay">Rental Rate Per Day</label>
-        <input type="number" id="rentalRatePerDay" formControlName="rentalRatePerDay" class="form-control">
-      </div>
-
-      <div class="form-group">
-        <label for="category">Category</label>
-        <select id="category" class="form-control" formControlName="category">
-          <option *ngFor="let carCat of carCategories" [value]="carCat.id">{{ carCat.name }}</option>
-        </select>
-      </div>
-
-      <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update Car' : 'Add Car' }}</button>
-    </form>
-
-    <div *ngIf="showError" class="alert alert-danger">{{ errorMessage }}</div>
-    <div *ngIf="showMessage" class="alert alert-success">{{ responseMessage }}</div>
-
-    <h3 class="mt-4">Car List</h3>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Make</th>
-          <th>Model</th>
-          <th>Year</th>
-          <th>Reg. Number</th>
-          <th>Status</th>
-          <th>Rate</th>
-          <th>Category</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let car of cars">
-          <td>{{ car.make }}</td>
-          <td>{{ car.model }}</td>
-          <td>{{ car.manufactureYear }}</td>
-          <td>{{ car.registrationNumber }}</td>
-          <td>{{ car.status }}</td>
-          <td>{{ car.rentalRatePerDay }}</td>
-          <td>{{ car.category.name }}</td>
-          <td>
-            <button class="btn btn-warning btn-sm" (click)="editCar(car)">Update</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    </div>
   </div>
 </div>
+
+

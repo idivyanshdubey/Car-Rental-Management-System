@@ -1,45 +1,143 @@
+
+
+
 .category-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+  padding: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.content-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header-section {
+  margin-bottom: 2rem;
+  text-align: center;
+  
+  .section-title {
+    color: #2c3e50;
+    font-weight: 600;
+    
+    i {
+      margin-right: 0.5rem;
+      color: #3498db;
+    }
   }
- 
-  .category-container h2 {
-    text-align: center;
+}
+
+.form-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
   }
- 
-  .category-container form {
-    display: flex;
-    flex-direction: column;
-  }
- 
-  .category-container label {
-    margin-top: 10px;
-  }
- 
-  .category-container input {
-    padding: 8px;
-    margin-top: 5px;
-  }
- 
-  .category-container button {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #007bff;
+
+  .card-header {
+    background-color: #34495e;
     color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    padding: 1rem;
+    font-weight: 500;
+    
+    i {
+      margin-right: 0.5rem;
+    }
   }
- 
-  .category-container button:disabled {
-    background-color: #ccc;
+
+  .card-body {
+    padding: 2rem;
+  }
+}
+
+.category-form {
+  .form-group {
+    margin-bottom: 1.5rem;
+    
+    label {
+      display: block;
+      color: #2c3e50;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      
+      i {
+        margin-right: 0.5rem;
+        color: #3498db;
+      }
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      
+      &:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52,152,219,0.25);
+        outline: none;
+      }
+      
+      &::placeholder {
+        color: #95a5a6;
+      }
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+  }
+
+  .error-message {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 1rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  &:hover:not(:disabled) {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+  }
+  
+  &:disabled {
+    background-color: #95a5a6;
     cursor: not-allowed;
   }
- 
-  .category-container div {
-    color: red;
-    font-size: 12px;
+  
+  i {
+    margin-right: 0.5rem;
   }
+}
+
+@media (max-width: 768px) {
+  .category-container {
+    padding: 1rem;
+  }
+  
+  .form-card {
+    .card-body {
+      padding: 1rem;
+    }
+  }
+}

@@ -1,25 +1,74 @@
-<div class="category-container">
-    <h2>Add Category</h2>
-    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
-      <label for="name">Name:</label>
-      <input id="name" formControlName="name" type="text" />
-      <div *ngIf="itemForm.get('name')?.invalid && itemForm.get('name')?.touched">
-        Name is required.
+<div class="category-container animate__animated animate__fadeIn">
+  <div class="content-wrapper">
+    <div class="header-section">
+      <h2 class="section-title">
+        <i class="fas fa-tags"></i> Add Category
+      </h2>
+    </div>
+
+    <div class="form-card">
+      <div class="card-header">
+        <i class="fas fa-plus-circle"></i> New Category Details
       </div>
-     
-      <label for="description">Description:</label>
-      <textarea id="description" formControlName="description"></textarea>
-      <div *ngIf="itemForm.get('description')?.invalid && itemForm.get('description')?.touched">
-        Description is required.
+      <div class="card-body">
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="category-form">
+          <div class="form-group">
+            <label for="name">
+              <i class="fas fa-signature"></i> Name
+            </label>
+            <input 
+              id="name" 
+              formControlName="name" 
+              type="text" 
+              class="form-control"
+              placeholder="Enter category name"
+            />
+            <div class="error-message" *ngIf="itemForm.get('name')?.invalid && itemForm.get('name')?.touched">
+              <i class="fas fa-exclamation-circle"></i> Name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">
+              <i class="fas fa-align-left"></i> Description
+            </label>
+            <textarea 
+              id="description" 
+              formControlName="description" 
+              class="form-control"
+              rows="4"
+              placeholder="Enter category description"
+            ></textarea>
+            <div class="error-message" *ngIf="itemForm.get('description')?.invalid && itemForm.get('description')?.touched">
+              <i class="fas fa-exclamation-circle"></i> Description is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="baseRate">
+              <i class="fas fa-dollar-sign"></i> Base Rate
+            </label>
+            <input 
+              id="baseRate" 
+              formControlName="baseRate" 
+              type="number" 
+              class="form-control"
+              placeholder="Enter base rate"
+            />
+            <div class="error-message" *ngIf="itemForm.get('baseRate')?.invalid && itemForm.get('baseRate')?.touched">
+              <i class="fas fa-exclamation-circle"></i> Base Rate must be a positive number
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            class="btn btn-submit" 
+            [disabled]="itemForm.invalid"
+          >
+            <i class="fas fa-save"></i> Add Category
+          </button>
+        </form>
       </div>
-     
-      <label for="baseRate">Base Rate:</label>
-      <input id="baseRate" formControlName="baseRate" type="number" />
-      <div *ngIf="itemForm.get('baseRate')?.invalid && itemForm.get('baseRate')?.touched">
-        Base Rate is required and must be a positive number.
-      </div>
-     
-      <button type="submit" [disabled]="itemForm.invalid">Add Category</button>
-    </form>
+    </div>
   </div>
- 
+</div>

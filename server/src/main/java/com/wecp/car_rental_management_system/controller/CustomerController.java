@@ -39,4 +39,9 @@ public class CustomerController {
         return new ResponseEntity<Booking>(bookingService.bookCar(userId, carId, bookingDto), HttpStatus.OK);
     }
 
+    @GetMapping("/api/customers/bookings/{userId}")
+    public ResponseEntity<List<Booking>> getBookingsByUserId(@PathVariable Long userId){
+        return new ResponseEntity<>(bookingService.getBookingsByUserId(userId), HttpStatus.OK);
+    }
+
 }

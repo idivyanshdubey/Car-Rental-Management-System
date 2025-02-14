@@ -74,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers(HttpMethod.POST , "/api/agent/payment/{bookingId}").hasAuthority("AGENT")
                 .antMatchers(HttpMethod.GET , "/api/customers/cars/available").hasAuthority("CUSTOMER")
                 .antMatchers(HttpMethod.POST , "/api/customers/booking").hasAuthority("CUSTOMER")
+                .antMatchers(HttpMethod.GET , "/api/customers/bookings/{userId}").hasAuthority("CUSTOMER")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

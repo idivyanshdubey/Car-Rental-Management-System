@@ -18,6 +18,7 @@ import { GetBookingsComponent } from './get-bookings/get-bookings.component';
 import { BookingReportComponent } from './booking-report/booking-report.component';
 import { PaymentReportComponent } from './payment-report/payment-report.component';
 
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { PaymentReportComponent } from './payment-report/payment-report.componen
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    CommonModule
   ],
   providers: [HttpService, HttpClientModule,DatePipe],
   bootstrap: [AppComponent],

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Car Rental Dashboard</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -31,25 +31,17 @@
   <div class="row d-flex flex-column align-items-center">
     <ng-container *ngIf="userRole === 'ADMINISTRATOR'">
       <div class="col-md-8 mb-4">
-        <div class="card shadow">
-          <div class="card-header bg-primary text-white">
-            Booking Reports
-          </div>
           <div class="card-body">
             <app-booking-report></app-booking-report>
           </div>
-        </div>
       </div>
       
       <div class="col-md-8">
-        <div class="card shadow">
-          <div class="card-header bg-success text-white">
-            Payment Reports
-          </div>
+
           <div class="card-body">
             <app-payment-report></app-payment-report>
           </div>
-        </div>
+
       </div>
     </ng-container>
     
@@ -79,4 +71,104 @@
       </div>
     </ng-container>
   </div>
+</div> -->
+
+<div class="dashboard-container">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand animate__animated animate__fadeIn">
+        <i class="fas fa-car-side"></i> Car Rental Dashboard
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <ng-container *ngIf="userRole === 'ADMINISTRATOR'">
+            <li class="nav-item">
+              <a class="nav-link custom-btn me-2 animate__animated animate__fadeIn" [routerLink]="['/category']">
+                <i class="fas fa-plus-circle"></i> Add Car Category
+              </a>
+            </li>
+          </ng-container>
+
+          <ng-container *ngIf="userRole === 'AGENT'">
+            <li class="nav-item">
+              <a class="nav-link custom-btn me-2 animate__animated animate__fadeIn" [routerLink]="['/add-car']">
+                <i class="fas fa-car"></i> Cars
+              </a>
+            </li>
+          </ng-container>
+
+          <li class="nav-item">
+            <button class="btn btn-logout animate__animated animate__fadeIn" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dashboard-content">
+    <h2 class="dashboard-title animate__animated animate__fadeInDown">
+      <i [class]="getRoleIcon()"></i> {{ userRole }} Dashboard
+    </h2>
+
+    <div class="row d-flex flex-column align-items-center">
+      <ng-container *ngIf="userRole === 'ADMINISTRATOR'">
+        <div class="col-md-8 mb-4 animate__animated animate__fadeInUp">
+          <div class="dashboard-card">
+            <div class="card-header">
+              <i class="fas fa-chart-line"></i> Booking Reports
+            </div>
+            <div class="card-body">
+              <app-booking-report></app-booking-report>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8 animate__animated animate__fadeInUp">
+          <div class="dashboard-card">
+            <div class="card-header">
+              <i class="fas fa-money-bill-wave"></i> Payment Reports
+            </div>
+            <div class="card-body">
+              <app-payment-report></app-payment-report>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="userRole === 'AGENT'">
+        <div class="col-md-8 animate__animated animate__fadeInUp">
+          <div class="dashboard-card">
+            <div class="card-header">
+              <i class="fas fa-book"></i> All Bookings
+            </div>
+            <div class="card-body">
+              <app-get-bookings></app-get-bookings>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="userRole === 'CUSTOMER'">
+        <div class="col-md-8 animate__animated animate__fadeInUp">
+          <div class="dashboard-card">
+            <div class="card-header">
+              <i class="fas fa-car"></i> Available Cars
+            </div>
+            <div class="card-body">
+              <app-cars></app-cars>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 </div>
+

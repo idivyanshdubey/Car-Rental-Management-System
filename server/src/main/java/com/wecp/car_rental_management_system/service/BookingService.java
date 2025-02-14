@@ -92,5 +92,9 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
+    public List<Booking> getBookingsByUserId(Long userId){
+        return bookingRepository.getBookingsByUserId(userId);
+    }
+
 
 }

@@ -1,65 +1,99 @@
-<div class="container mt-4">
-  <h2 class="text-center mb-4">Available Cars</h2>
+<div class="cars-container animate__animated animate__fadeIn">
+  <div class="content-wrapper">
+    <div class="header-section">
+      <h2 class="section-title">
+        <i class="fas fa-car"></i> Available Cars
+      </h2>
+    </div>
 
-  <!-- Rental Date Form -->
-  <form [formGroup]="itemForm" class="mb-4 p-3 bg-light rounded shadow">
-    <div class="row">
-      <div class="col-md-5">
-        <label for="rentalStartDate" class="form-label">Rental Start Date:</label>
-        <input
-          type="date"
-          id="rentalStartDate"
-          class="form-control"
-          formControlName="rentalStartDate"
-          required
-        />
+    <div class="search-card">
+      <div class="card-header">
+        <i class="fas fa-calendar-alt"></i> Select Rental Dates
       </div>
+      <div class="card-body">
+        <form [formGroup]="itemForm" class="search-form">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="form-group">
+                <label for="rentalStartDate">
+                  <i class="fas fa-calendar-plus"></i> Start Date
+                </label>
+                <input 
+                  type="date" 
+                  id="rentalStartDate" 
+                  class="form-control" 
+                  formControlName="rentalStartDate" 
+                  required 
+                />
+              </div>
+            </div>
 
-      <div class="col-md-5">
-        <label for="rentalEndDate" class="form-label">Rental End Date:</label>
-        <input
-          type="date"
-          id="rentalEndDate"
-          class="form-control"
-          formControlName="rentalEndDate"
-          required
-        />
-      </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <label for="rentalEndDate">
+                  <i class="fas fa-calendar-minus"></i> End Date
+                </label>
+                <input 
+                  type="date" 
+                  id="rentalEndDate" 
+                  class="form-control" 
+                  formControlName="rentalEndDate" 
+                  required 
+                />
+              </div>
+            </div>
 
-      <div class="col-md-2 d-flex align-items-end">
-        <button
-          type="button"
-          class="btn btn-primary w-100"
-          [disabled]="!itemForm.valid"
-          (click)="filterCars()"
-        >
-          Search Cars
-        </button>
+            <div class="col-md-2">
+              <button 
+                type="button" 
+                class="btn btn-search" 
+                [disabled]="!itemForm.valid" 
+                (click)="filterCars()"
+              >
+                <i class="fas fa-search"></i> Search
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-  </form>
 
-  <!-- List of Available Cars -->
-  <div *ngIf="filteredCars.length > 0; else noCars" class="row">
-    <div class="col-md-4 mb-4" *ngFor="let car of filteredCars">
-      <div class="card shadow-sm">
-        <img [src]="car.imageUrl || 'assets/default-car.jpg'" alt="{{ car.make }} {{ car.model }}" class="card-img-top car-image">
-        <div class="card-body">
-          <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
-          <p class="card-text"><strong>Manufacture Year:</strong>{{ car.manufactureYear }}</p>
-          <p class="card-text"><strong>Price per day:</strong> ${{ car.rentalRatePerDay }}</p>
-          <button class="btn btn-success w-100" (click)="bookCar(car.id)" [disabled]="!itemForm.valid">
-            Book Now
+    <div class="cars-grid" *ngIf="filteredCars.length > 0; else noCars">
+      <div class="car-card animate__animated animate__fadeIn" *ngFor="let car of filteredCars">
+        <div class="car-image-wrapper">
+          <img [src]="car.imageUrl || 'assets/default-car.jpg'" [alt]="car.make + ' ' + car.model">
+        </div>
+        <div class="car-details">
+          <h3 class="car-title">{{ car.make }} {{ car.model }}</h3>
+          <div class="car-info">
+            <p><i class="fas fa-calendar-day"></i> {{ car.manufactureYear }}</p>
+            <p><i class="fas fa-dollar-sign"></i> {{ car.rentalRatePerDay }}/day</p>
+          </div>
+          
+          <div class="status-message" *ngIf="car.statusMessage">
+            <span class="badge" [ngClass]="car.statusMessage.toLowerCase().includes('pending') ? 'pending' : 'booked'">
+              {{ car.statusMessage }}
+            </span>
+          </div>
+
+          <button 
+            class="btn btn-book" 
+            (click)="bookCar(car.id)" 
+            [disabled]="!itemForm.valid || car.statusMessage"
+            [ngClass]="{'btn-disabled': car.statusMessage}"
+          >
+            <i class="fas fa-{{ car.statusMessage ? 'lock' : 'check' }}"></i>
+            {{ car.statusMessage ? 'Unavailable' : 'Book Now' }}
           </button>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- No Cars Available Message -->
-  <ng-template #noCars>
-    <div class="alert alert-warning text-center mt-4">
-      <p>No available cars for the selected date range.</p>
-    </div>
-  </ng-template>
+    <ng-template #noCars>
+      <div class="no-cars-message animate__animated animate__fadeIn">
+        <i class="fas fa-car-slash"></i>
+        <p>No available cars for the selected date range.</p>
+      </div>
+    </ng-template>
+  </div>
 </div>

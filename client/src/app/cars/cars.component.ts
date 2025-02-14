@@ -14,6 +14,8 @@ export class CarsComponent implements OnInit {
   itemForm!: FormGroup;
   cars: any[] = [];
   filteredCars: any[] = [];
+  userBookings: any[] = [];
+  userId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -25,7 +27,9 @@ export class CarsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.userId = this.authService.getUserId();
     this.loadCars();
+    this.getAllBookings();
   }
 
   private initializeForm(): void {
@@ -39,65 +43,97 @@ export class CarsComponent implements OnInit {
     this.httpService.getCars().subscribe(
       (cars) => {
         this.cars = cars;
-        this.filterCars(); // Apply filtering after fetching the data
+        this.filterCars();
       },
       (error) => console.error('Error fetching cars:', error)
     );
   }
 
+  getAllBookings(): void {
+    if (!this.userId) return;
+
+    this.httpService.getBookingsByUserId(this.userId).subscribe(
+      (bookings) => {
+        this.userBookings = bookings.map((booking: any) => ({
+          ...booking,
+          statusMessage: booking.status === "pending" ? "Pending for acceptance" : "Booked"
+        }));
+
+        this.filterCars();
+      },
+      (error) => console.error('Error fetching bookings:', error)
+    );
+  }
+
   filterCars(): void {
-    const startDate: Date = new Date(this.itemForm.value.rentalStartDate);
-    const endDate: Date = new Date(this.itemForm.value.rentalEndDate);
+    const startDate = new Date(this.itemForm.value.rentalStartDate);
+    const endDate = new Date(this.itemForm.value.rentalEndDate);
 
-    if (!startDate || !endDate) {
-      this.filteredCars = this.cars.filter(car => car.status.toLowerCase() === "available");
-      return;
-    }
+    // Filter out available cars
+    let availableCars = this.cars.filter(car => car.status.toLowerCase() === "available");
 
-    this.filteredCars = this.cars.filter(car => {
-      const carStatus = car.status.toLowerCase();
-      return carStatus === "available" && this.isCarAvailableForDateRange(car, startDate, endDate);
-    });
+    // Combine booked, pending, and available cars
+    this.filteredCars = [
+      ...this.userBookings.filter(b => b.status === "Booked"),
+      ...this.userBookings.filter(b => b.status === "Pending"),
+      ...availableCars
+    ];
   }
 
-  private isCarAvailableForDateRange(car: any, startDate: Date, endDate: Date): boolean {
-    if (!car.bookings || car.bookings.length === 0) return true;
-
-    return !car.bookings.some((booking: any) => {
-      const bookedStart = new Date(booking.rentalStartDate);
-      const bookedEnd = new Date(booking.rentalEndDate);
-      return (startDate <= bookedEnd && endDate >= bookedStart);
-    });
-  }
+  // filterCars(): void {
+  //   const startDate = new Date(this.itemForm.value.rentalStartDate);
+  //   const endDate = new Date(this.itemForm.value.rentalEndDate);
+  
+  //   // Extract booked and pending cars from userBookings by matching carId with cars
+  //   const bookedCars = this.userBookings
+  //     .filter(b => b.status === "Booked")
+  //     .map(b => {
+  //       const car = this.cars.find(car => car.id === b.car.id);
+  //       return car ? { ...car, statusMessage: "Booked" } : null;
+  //     })
+  //     .filter(car => car !== null); // Remove null values
+      
+  //   console.log(bookedCars[0].id);
+  //   const pendingCars = this.userBookings
+  //     .filter(b => b.status === "Pending")
+  //     .map(b => {
+  //       const car = this.cars.find(car => car.id === b.car.id);
+  //       return car ? { ...car, statusMessage: "Pending for acceptance" } : null;
+  //     })
+  //     .filter(car => car !== null); // Remove null values
+  
+  //   // Filter available cars
+  //   const availableCars = this.cars.filter(car => 
+  //     car.status.toLowerCase() === "available" && 
+  //     !this.userBookings.some(b => b.carId === car.id) // Exclude already booked cars
+  //   );
+  
+  //   // Combine the cars: Booked → Pending → Available
+  //   this.filteredCars = [...bookedCars, ...pendingCars, ...availableCars];
+  // }
 
   bookCar(carId: number): void {
-    if (this.itemForm.valid) {
-      const userId = this.authService.getUserId();
-      const rentalStartDate: Date = new Date(this.itemForm.value.rentalStartDate);
-      const rentalEndDate: Date = new Date(this.itemForm.value.rentalEndDate);
-  
-      // Format the dates using DatePipe
+    if (this.itemForm.valid && this.userId) {
+      const rentalStartDate = new Date(this.itemForm.value.rentalStartDate);
+      const rentalEndDate = new Date(this.itemForm.value.rentalEndDate);
+
       const formattedStartDate = this.datePipe.transform(rentalStartDate, 'yyyy-MM-dd HH:mm:ss');
       const formattedEndDate = this.datePipe.transform(rentalEndDate, 'yyyy-MM-dd HH:mm:ss');
-  
-      // Ensure the formatted dates are not null
+
       if (!formattedStartDate || !formattedEndDate) {
         console.error('Date formatting failed');
         return;
       }
-  
+
       const bookingDetails = {
         rentalStartDate: formattedStartDate,
         rentalEndDate: formattedEndDate
       };
-  
-      console.log('Formatted Start Date:', bookingDetails.rentalStartDate);
-      console.log('Formatted End Date:', bookingDetails.rentalEndDate);
-  
-      this.httpService.bookACar(bookingDetails, userId, carId).subscribe(
-        (response) => {
-          console.log('Car booked successfully', response);
-          this.router.navigate(['/']);
+
+      this.httpService.bookACar(bookingDetails, this.userId, carId).subscribe(
+        () => {
+          console.log('Car booked successfully');
+          this.getAllBookings();
         },
         (error) => console.error('Error booking car:', error)
       );
