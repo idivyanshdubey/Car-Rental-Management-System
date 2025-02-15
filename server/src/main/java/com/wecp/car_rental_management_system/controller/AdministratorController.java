@@ -28,8 +28,12 @@ public class AdministratorController {
 
 
     @PostMapping("/api/administrator/car-categories")
-    public ResponseEntity<CarCategory> createCarCategory(@RequestBody CarCategory carCategory) {
+    public ResponseEntity<?> createCarCategory(@RequestBody CarCategory carCategory) {
         // create car category
+        if(carCategoryService.addCarCategory(carCategory) == null){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         return new ResponseEntity<CarCategory>(carCategoryService.addCarCategory(carCategory), HttpStatus.OK);
     }
 

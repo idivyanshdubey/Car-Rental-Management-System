@@ -48,16 +48,22 @@
                 </td>
                 <td>{{ booking.user.username }}</td>
                 <td class="action-buttons">
-                  <button *ngIf="booking.status === 'Pending'" 
-                          class="btn btn-accept" 
-                          (click)="acceptBooking(booking.id, 'Process Payment')">
-                    <i class="fas fa-check"></i> Accept
-                  </button>
-                  <button *ngIf="booking.status === 'Process Payment'" 
-                          class="btn btn-payment" 
-                          (click)="showPaymentForm(booking)">
-                    <i class="fas fa-credit-card"></i> Payment
-                  </button>
+                  <ng-container *ngIf="booking.status === 'Pending'">
+                    <button class="btn btn-accept" (click)="acceptBooking(booking.id, 'Process Payment')">
+                      <i class="fas fa-check"></i> Accept
+                    </button>
+                  </ng-container>
+
+                  <ng-container *ngIf="booking.status === 'Process Payment'">
+                    <button class="btn btn-payment" (click)="showPaymentForm(booking)">
+                      <i class="fas fa-credit-card"></i> Payment
+                    </button>
+                  </ng-container>
+
+                  <!-- Show "NA" after payment is completed -->
+                  <div *ngIf="booking.status === 'Booked'" class="na-container">
+                    <span class="na-label">NA</span>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -116,3 +122,7 @@
     </div>
   </div>
 </div>
+
+
+
+

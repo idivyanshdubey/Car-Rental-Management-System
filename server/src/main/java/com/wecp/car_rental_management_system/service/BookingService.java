@@ -52,6 +52,8 @@ public class BookingService {
         // Calculate the total amount
         double totalAmount = rentalDays * car.getRentalRatePerDay();
         booking.setTotalAmount(totalAmount);
+
+        car.setStatus("pending");
     
         // Set the user and car details in the booking
         booking.setUser(user);

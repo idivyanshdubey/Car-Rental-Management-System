@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpService } from '../../services/http.service';
 import { DatePipe } from '@angular/common';
+import { Car } from '../models/car';
+import { Booking } from '../models/bookings';
+
 
 @Component({
   selector: 'app-cars',
@@ -12,10 +15,11 @@ import { DatePipe } from '@angular/common';
 })
 export class CarsComponent implements OnInit {
   itemForm!: FormGroup;
-  cars: any[] = [];
-  filteredCars: any[] = [];
-  userBookings: any[] = [];
+  cars: Car[] = [];
+  filteredCars: Car[] = [];
+  userBookings: Booking[] = [];
   userId: number | null = null;
+  showEndDateError: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -34,8 +38,8 @@ export class CarsComponent implements OnInit {
 
   private initializeForm(): void {
     this.itemForm = this.fb.group({
-      rentalStartDate: ["", Validators.required],
-      rentalEndDate: ["", Validators.required]
+      rentalStartDate: ["", [Validators.required]],
+      rentalEndDate: ["", [Validators.required]]
     });
   }
 
@@ -43,7 +47,6 @@ export class CarsComponent implements OnInit {
     this.httpService.getCars().subscribe(
       (cars) => {
         this.cars = cars;
-        this.filterCars();
       },
       (error) => console.error('Error fetching cars:', error)
     );
@@ -69,48 +72,23 @@ export class CarsComponent implements OnInit {
     const startDate = new Date(this.itemForm.value.rentalStartDate);
     const endDate = new Date(this.itemForm.value.rentalEndDate);
 
+    this.loadCars();
+
     // Filter out available cars
     let availableCars = this.cars.filter(car => car.status.toLowerCase() === "available");
 
     // Combine booked, pending, and available cars
+    let userCars : Car[];
+
+    userCars = [
+      ...this.userBookings.filter(b => b.status === "Booked").map(b => b.car),
+      ...this.userBookings.filter(b => b.status === "Pending").map(b => b.car)
+    ]
     this.filteredCars = [
-      ...this.userBookings.filter(b => b.status === "Booked"),
-      ...this.userBookings.filter(b => b.status === "Pending"),
+      ...userCars,
       ...availableCars
     ];
   }
-
-  // filterCars(): void {
-  //   const startDate = new Date(this.itemForm.value.rentalStartDate);
-  //   const endDate = new Date(this.itemForm.value.rentalEndDate);
-  
-  //   // Extract booked and pending cars from userBookings by matching carId with cars
-  //   const bookedCars = this.userBookings
-  //     .filter(b => b.status === "Booked")
-  //     .map(b => {
-  //       const car = this.cars.find(car => car.id === b.car.id);
-  //       return car ? { ...car, statusMessage: "Booked" } : null;
-  //     })
-  //     .filter(car => car !== null); // Remove null values
-      
-  //   console.log(bookedCars[0].id);
-  //   const pendingCars = this.userBookings
-  //     .filter(b => b.status === "Pending")
-  //     .map(b => {
-  //       const car = this.cars.find(car => car.id === b.car.id);
-  //       return car ? { ...car, statusMessage: "Pending for acceptance" } : null;
-  //     })
-  //     .filter(car => car !== null); // Remove null values
-  
-  //   // Filter available cars
-  //   const availableCars = this.cars.filter(car => 
-  //     car.status.toLowerCase() === "available" && 
-  //     !this.userBookings.some(b => b.carId === car.id) // Exclude already booked cars
-  //   );
-  
-  //   // Combine the cars: Booked → Pending → Available
-  //   this.filteredCars = [...bookedCars, ...pendingCars, ...availableCars];
-  // }
 
   bookCar(carId: number): void {
     if (this.itemForm.valid && this.userId) {
@@ -141,4 +119,38 @@ export class CarsComponent implements OnInit {
       console.warn('Form is invalid');
     }
   }
+
+   checkStartDate(): void {
+      if (!this.itemForm.get('rentalStartDate')?.valid) {
+        this.showEndDateError = true;
+      } else {
+        this.showEndDateError = false;
+      }
+    }
+
+    validateEndDate(control: any): { [key: string]: boolean } | null {
+        const startDate = new Date(this.itemForm.get('rentalStartDate')?.value);
+        const endDate = new Date(control.value);
+    
+        if (endDate <= startDate) {
+          return { endDateInvalid: true };
+        }
+        return null;
+      }
+    
+      getNextDay(date: string): string {
+        const nextDay = new Date(date);
+        nextDay.setDate(nextDay.getDate() + 1);
+        return this.datePipe.transform(nextDay, 'yyyy-MM-dd')!;
+      }
+    
+   
+    get todayString(): string {
+      const today = new Date();
+      const day = String(today.getDate()).padStart(2, '0');
+      const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
+      const year = today.getFullYear();
+   
+      return `${year}-${month}-${day}`;
+    }
 }

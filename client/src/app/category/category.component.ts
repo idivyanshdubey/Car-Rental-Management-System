@@ -11,6 +11,8 @@ import { HttpService } from '../../services/http.service';
 })
 export class CategoryComponent implements OnInit {
   itemForm: FormGroup;
+  errorMessage: string = '';
+  successMessage: string = '';
  
   constructor(
     private fb: FormBuilder,
@@ -31,10 +33,16 @@ export class CategoryComponent implements OnInit {
     if (this.itemForm.valid) {
       this.httpService.createCategory(this.itemForm.value).subscribe(
         response => {
+          this.successMessage = 'Category added successfully';
+          this.errorMessage = "";
           console.log('Category added successfully', response);
-          this.router.navigate(['/dashboard']);
         },
         error => {
+          if(error.status === 409){
+            console.log('in error message')
+            this.errorMessage = "Car Category name already exists";
+            this.successMessage="";
+          }
           console.error('Error adding category', error);
         }
       );

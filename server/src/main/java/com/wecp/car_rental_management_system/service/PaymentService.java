@@ -1,6 +1,7 @@
 package com.wecp.car_rental_management_system.service;
 
 import com.wecp.car_rental_management_system.entity.Booking;
+import com.wecp.car_rental_management_system.entity.Car;
 import com.wecp.car_rental_management_system.entity.Payment;
 import com.wecp.car_rental_management_system.repository.BookingRepository;
 import com.wecp.car_rental_management_system.repository.PaymentRepository;
@@ -24,10 +25,20 @@ public class PaymentService{
 
     public Payment createPayment(Long BookingId,Payment payment){
         Booking booking = bookingRepository.findById(BookingId).get();
+        Car car = booking.getCar();
+        
+        if(payment.getPaymentStatus() == "Completed"){
+            booking.setStatus("Booked");
+            car.setStatus("booked");
+        }
+
+        booking.setCar(car);
         booking.setPayment(payment);
         booking.setPaymentStatus(payment.getPaymentStatus());
+
         payment.setBooking(booking);
         payment.setAmount(booking.getTotalAmount());
+
         return paymentRepository.save(payment);
     }
 

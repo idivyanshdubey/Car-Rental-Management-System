@@ -16,6 +16,13 @@ public class CarCategoryService {
 
     // Add a new car category
     public CarCategory addCarCategory(CarCategory carCategory) {
+
+        String name = carCategory.getName();
+         
+        if(carCategoryRepository.existsByName(name)){
+            return null;
+        }
+        
         return carCategoryRepository.save(carCategory);
     }
 

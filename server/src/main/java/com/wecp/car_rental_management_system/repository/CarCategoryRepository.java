@@ -8,5 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarCategoryRepository extends JpaRepository<CarCategory,Long> {
     // implement jpa repository here
+
+    boolean existsByName(String name);
 }
 

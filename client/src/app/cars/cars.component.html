@@ -23,7 +23,7 @@
                   id="rentalStartDate" 
                   class="form-control" 
                   formControlName="rentalStartDate" 
-                  required 
+                  [min]="todayString"
                 />
               </div>
             </div>
@@ -37,9 +37,15 @@
                   type="date" 
                   id="rentalEndDate" 
                   class="form-control" 
-                  formControlName="rentalEndDate" 
-                  required 
-                />
+                  formControlName="rentalEndDate"
+                  [min]="todayString"
+                  />
+                  <!-- <div *ngIf="itemForm.get('rentalEndDate')?.hasError('endDateInvalid') && itemForm.get('rentalEndDate')?.touched" class="error-message">
+                    Rental end date must be after the rental start date.
+                  </div>
+                  <div *ngIf="showEndDateError" class="error-message">
+                    Please select a rental start date first.
+                  </div> -->
               </div>
             </div>
 
@@ -61,7 +67,7 @@
     <div class="cars-grid" *ngIf="filteredCars.length > 0; else noCars">
       <div class="car-card animate__animated animate__fadeIn" *ngFor="let car of filteredCars">
         <div class="car-image-wrapper">
-          <img [src]="car.imageUrl || 'assets/default-car.jpg'" [alt]="car.make + ' ' + car.model">
+          <img [src]="'assets/default-car.jpg'" [alt]="car.make + ' ' + car.model">
         </div>
         <div class="car-details">
           <h3 class="car-title">{{ car.make }} {{ car.model }}</h3>
@@ -70,20 +76,20 @@
             <p><i class="fas fa-dollar-sign"></i> {{ car.rentalRatePerDay }}/day</p>
           </div>
           
-          <div class="status-message" *ngIf="car.statusMessage">
-            <span class="badge" [ngClass]="car.statusMessage.toLowerCase().includes('pending') ? 'pending' : 'booked'">
-              {{ car.statusMessage }}
+          <div class="status-message" *ngIf="car.status">
+            <span class="badge" [ngClass]="car.status.toLowerCase().includes('pending') ? 'pending' : 'booked'">
+              {{ car.status }}
             </span>
           </div>
 
           <button 
             class="btn btn-book" 
             (click)="bookCar(car.id)" 
-            [disabled]="!itemForm.valid || car.statusMessage"
-            [ngClass]="{'btn-disabled': car.statusMessage}"
+            [disabled]="!itemForm.valid || car.status !== 'available'"
+            [ngClass]="{'btn-disabled': car.status !== 'available'}"
           >
-            <i class="fas fa-{{ car.statusMessage ? 'lock' : 'check' }}"></i>
-            {{ car.statusMessage ? 'Unavailable' : 'Book Now' }}
+            <i class="fas fa-{{ car.status === 'available'  ? 'check' : 'lock' }}"></i>
+            {{ car.status === 'pending' || car.status === 'booked'  ? 'Unavailable' : 'Book Now' }}
           </button>
         </div>
       </div>
