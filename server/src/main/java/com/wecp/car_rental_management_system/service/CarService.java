@@ -19,17 +19,24 @@ public class CarService {
     @Autowired
     private CarCategoryRepository carCategoryRepository;
  
-    public Car addCar(Car car){
+    public Car addCar(Car car) {
+        // Check if the registration number already exists
+        if (carRepository.existsByRegistrationNumber(car.getRegistrationNumber())) {
+            return null;
+        }
+        // Set the car category if it exists
         Long id = car.getCategory().getId();
         CarCategory carCat = new CarCategory();
 
-        if(id != null )
-            carCat = carCategoryRepository.findById(id).get();
+        if (id != null) {
+            carCat = carCategoryRepository.findById(id).orElse(null);
+        }
 
-        if(carCat != null){
+        if (carCat != null) {
             car.setCategory(carCat);
         }
-        
+
+        // Save the car to the repository
         return carRepository.save(car);
     }
 

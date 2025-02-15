@@ -1,87 +1,25 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Car Rental Dashboard</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <ng-container *ngIf="userRole === 'ADMINISTRATOR'">
-          <li class="nav-item">
-            <a class="nav-link btn btn-primary text-white me-2" [routerLink]="['/category']">Add Car Category</a>
-          </li>
-        </ng-container>
-        <ng-container *ngIf="userRole === 'AGENT'">
-          <li class="nav-item">
-            <a class="nav-link btn btn-primary text-white me-2" [routerLink]="['/add-car']">Cars</a>
-          </li>
-        </ng-container>
-        <li class="nav-item">
-          <button class="btn btn-danger" (click)="logout()">Logout</button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<div class="container mt-4">
-  <h2 class="text-center mb-4">{{ userRole }} Dashboard</h2>
-  
-  <div class="row d-flex flex-column align-items-center">
-    <ng-container *ngIf="userRole === 'ADMINISTRATOR'">
-      <div class="col-md-8 mb-4">
-          <div class="card-body">
-            <app-booking-report></app-booking-report>
-          </div>
-      </div>
-      
-      <div class="col-md-8">
-
-          <div class="card-body">
-            <app-payment-report></app-payment-report>
-          </div>
-
-      </div>
-    </ng-container>
-    
-    <ng-container *ngIf="userRole === 'AGENT'">
-      <div class="col-md-8">
-        <div class="card shadow">
-          <div class="card-header bg-info text-white">
-            All Bookings
-          </div>
-          <div class="card-body">
-            <app-get-bookings></app-get-bookings>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    
-    <ng-container *ngIf="userRole === 'CUSTOMER'">
-      <div class="col-md-8">
-        <div class="card shadow">
-          <div class="card-header bg-warning text-dark">
-            Available Cars
-          </div>
-          <div class="card-body">
-            <app-cars></app-cars>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-</div> -->
-
 <div class="dashboard-container">
+  <!-- Animated Background -->
+  <div class="area">
+    <ul class="circles">
+      <li></li><li></li><li></li><li></li><li></li>
+      <li></li><li></li><li></li><li></li><li></li>
+    </ul>
+  </div>
+
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand animate__animated animate__fadeIn">
-        <i class="fas fa-car-side"></i> Car Rental Dashboard
+        <div class="brand-content">
+          <img src="assets/vroom-logo.jpg" alt="Vroom Cars" class="brand-logo">
+          <span class="brand-text">
+            <span class="brand-name">Vroom</span>
+            <span class="brand-subtitle">Cars</span>
+          </span>
+        </div>
       </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -114,61 +52,35 @@
   </nav>
 
   <div class="dashboard-content">
-    <h2 class="dashboard-title animate__animated animate__fadeInDown">
-      <i [class]="getRoleIcon()"></i> {{ userRole }} Dashboard
-    </h2>
+    <div class="role-badge animate__animated animate__fadeInDown">
+      <i [class]="getRoleIcon()"></i> {{ userRole }}
+    </div>
 
-    <div class="row d-flex flex-column align-items-center">
+    <div class="row">
+      <!-- Administrator View -->
       <ng-container *ngIf="userRole === 'ADMINISTRATOR'">
-        <div class="col-md-8 mb-4 animate__animated animate__fadeInUp">
-          <div class="dashboard-card">
-            <div class="card-header">
-              <i class="fas fa-chart-line"></i> Booking Reports
-            </div>
-            <div class="card-body">
-              <app-booking-report></app-booking-report>
-            </div>
-          </div>
+        <div class="col-md-10 offset-md-1 mb-4 animate__animated animate__fadeInUp">
+          <app-booking-report></app-booking-report>
         </div>
 
-        <div class="col-md-8 animate__animated animate__fadeInUp">
-          <div class="dashboard-card">
-            <div class="card-header">
-              <i class="fas fa-money-bill-wave"></i> Payment Reports
-            </div>
-            <div class="card-body">
-              <app-payment-report></app-payment-report>
-            </div>
-          </div>
+        <div class="col-md-10 offset-md-1 animate__animated animate__fadeInUp">
+          <app-payment-report></app-payment-report>
         </div>
       </ng-container>
 
+      <!-- Agent View -->
       <ng-container *ngIf="userRole === 'AGENT'">
-        <div class="col-md-8 animate__animated animate__fadeInUp">
-          <div class="dashboard-card">
-            <div class="card-header">
-              <i class="fas fa-book"></i> All Bookings
-            </div>
-            <div class="card-body">
-              <app-get-bookings></app-get-bookings>
-            </div>
-          </div>
+        <div class="col-md-10 offset-md-1 animate__animated animate__fadeInUp">
+          <app-get-bookings></app-get-bookings>
         </div>
       </ng-container>
 
+      <!-- Customer View -->
       <ng-container *ngIf="userRole === 'CUSTOMER'">
-        <div class="col-md-8 animate__animated animate__fadeInUp">
-          <div class="dashboard-card">
-            <div class="card-header">
-              <i class="fas fa-car"></i> Available Cars
-            </div>
-            <div class="card-body">
-              <app-cars></app-cars>
-            </div>
-          </div>
+        <div class="col-md-10 offset-md-1 animate__animated animate__fadeInUp">
+          <app-cars></app-cars>
         </div>
       </ng-container>
     </div>
   </div>
 </div>
-

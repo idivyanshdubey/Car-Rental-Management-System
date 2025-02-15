@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { HttpService } from '../../services/http.service';
 
 export interface Category{
@@ -26,13 +26,20 @@ export class AddCarComponent implements OnInit {
     this.itemForm = this.formBuilder.group({
       make: ['', Validators.required],
       model: ['', Validators.required],
-      manufactureYear: ['', Validators.required],
+      manufactureYear: ['', [Validators.required,Validators.pattern('^[0-9]{4}$'),Validators.min(2015)]],
       status: ['', Validators.required],
-      rentalRatePerDay: [0, Validators.required],
-      registrationNumber: ['', Validators.required],
+      rentalRatePerDay: [null, [Validators.required, this.negativeValueValidator]],
+      registrationNumber: ['', [Validators.required, Validators.pattern('^[A-Z]{2} [0-9]{2} [A-Z]{1,2} [0-9]{4}$')]],
       category: [null, Validators.required]
     });
   }
+    negativeValueValidator(control: AbstractControl): ValidationErrors | null {
+        if (control.value < 0) {
+          return { negativeValue: true };
+        }
+        return null;
+      }  
+    
 
   ngOnInit(): void {
     this.getCarCategories();
@@ -77,22 +84,33 @@ export class AddCarComponent implements OnInit {
   }
 
   addCar() {
-    let category : Category;
+    let category: Category;
     category = {
       id: this.itemForm.get('category')?.value
-    }  
-    console.log(category.id);
+    };
     this.itemForm.get('category')?.setValue(category);
+
     this.httpService.createCar(this.itemForm.value).subscribe(
       response => {
         this.showMessage = true;
+        this.showError = false;
         this.responseMessage = "Car added successfully!";
         this.itemForm.reset();
         this.getCars();
       },
       error => {
-        this.showError = true;
-        this.errorMessage = "Error adding car.";
+        if(error.status == 409){
+          this.showError = true;
+          this.showMessage = false;
+          this.errorMessage="Registration number already exists";
+          console.log("error 409")
+        }else{
+          this.showError = true;
+          this.showMessage = false;
+          this.errorMessage = error.error || "Error adding car.";
+          console.error("error adding car");
+        }
+        
       }
     );
   }
@@ -113,6 +131,7 @@ export class AddCarComponent implements OnInit {
     this.httpService.updateCar(this.itemForm.value, this.selectedCarId).subscribe(
       response => {
         this.showMessage = true;
+        this.showError = false;
         this.responseMessage = "Car updated successfully!";
         this.itemForm.reset();
         this.isEditMode = false;
@@ -121,6 +140,7 @@ export class AddCarComponent implements OnInit {
       },
       error => {
         this.showError = true;
+        this.showMessage = false;
         this.errorMessage = "Error updating car.";
       }
     );

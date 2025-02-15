@@ -1,11 +1,11 @@
 .bookings-container {
   padding: 2rem;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #24243e 0%, #302b63 50%, #0f0c29 100%);
 }
 
 .content-wrapper {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -14,66 +14,77 @@
   text-align: center;
   
   .section-title {
-    color: #2c3e50;
+    color: #ffffff;
     font-weight: 600;
+    font-size: 1.8rem;
     
     i {
-      margin-right: 0.5rem;
+      margin-right: 0.8rem;
       color: #3498db;
     }
   }
 }
 
 .alerts-container {
-  margin-bottom: 2rem;
-  
   .alert {
-    padding: 1rem;
-    border-radius: 5px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
     margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
     
     i {
-      margin-right: 0.5rem;
+      margin-right: 0.8rem;
+      font-size: 1.2rem;
     }
     
     &.success-alert {
-      background-color: #2ecc71;
+      background: linear-gradient(to right, #2ecc71, #27ae60);
       color: white;
     }
     
     &.error-alert {
-      background-color: #e74c3c;
+      background: linear-gradient(to right, #e74c3c, #c0392b);
       color: white;
     }
   }
 }
 
 .table-card, .payment-form-card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 2rem;
-  overflow: hidden;
+  transition: all 0.3s ease;
   
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+
   .card-header {
-    background-color: #34495e;
+    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
     color: white;
-    padding: 1rem;
+    padding: 1.2rem;
+    border-radius: 15px 15px 0 0;
     font-weight: 500;
+    font-size: 1.1rem;
     
     i {
-      margin-right: 0.5rem;
+      margin-right: 0.8rem;
     }
     
     .booking-id {
       float: right;
       font-size: 0.9rem;
-      opacity: 0.8;
+      opacity: 0.9;
     }
   }
-  
+
   .card-body {
-    padding: 1.5rem;
+    padding: 2rem;
   }
 }
 
@@ -81,13 +92,15 @@
   width: 100%;
   
   th {
-    background-color: #f8f9fa;
+    background: rgba(248, 249, 250, 0.9);
     color: #2c3e50;
     font-weight: 600;
     padding: 1rem;
+    white-space: nowrap;
+    border-bottom: 2px solid rgba(52, 152, 219, 0.2);
     
     i {
-      margin-right: 0.5rem;
+      margin-right: 0.8rem;
       color: #3498db;
     }
   }
@@ -95,60 +108,66 @@
   td {
     padding: 1rem;
     vertical-align: middle;
+    border-bottom: 1px solid rgba(52, 152, 219, 0.1);
   }
 }
 
 .status-badge {
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
   font-size: 0.9rem;
   font-weight: 500;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   
   &.pending {
-    background-color: #f1c40f;
+    background: linear-gradient(to right, #f1c40f, #f39c12);
     color: white;
   }
   
   &.booked {
-    background-color: #2ecc71;
+    background: linear-gradient(to right, #2ecc71, #27ae60);
     color: white;
   }
   
   &.process {
-    background-color: #3498db;
+    background: linear-gradient(to right, #3498db, #2980b9);
     color: white;
   }
 }
 
 .action-buttons {
   .btn {
-    padding: 0.5rem 1rem;
+    padding: 0.8rem 1.5rem;
     border: none;
-    border-radius: 5px;
-    margin-right: 0.5rem;
+    border-radius: 50px;
+    margin-right: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
     transition: all 0.3s ease;
     
     i {
-      margin-right: 0.5rem;
+      margin-right: 0.8rem;
     }
     
     &.btn-accept {
-      background-color: #2ecc71;
+      background: linear-gradient(to right, #2ecc71, #27ae60);
       color: white;
+      box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
       
       &:hover {
-        background-color: #27ae60;
         transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
       }
     }
     
     &.btn-payment {
-      background-color: #3498db;
+      background: linear-gradient(to right, #3498db, #2980b9);
       color: white;
+      box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
       
       &:hover {
-        background-color: #2980b9;
         transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
       }
     }
   }
@@ -161,25 +180,26 @@
     display: block;
     color: #2c3e50;
     font-weight: 500;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
     
     i {
-      margin-right: 0.5rem;
+      margin-right: 0.8rem;
       color: #3498db;
     }
   }
   
   .form-control {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    padding: 0.8rem;
+    border: 1px solid rgba(52, 152, 219, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
     transition: all 0.3s ease;
     
     &:focus {
       border-color: #3498db;
-      box-shadow: 0 0 0 0.2rem rgba(52,152,219,0.25);
-      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+      background: white;
     }
   }
 }
@@ -187,25 +207,22 @@
 .btn-submit {
   width: 100%;
   padding: 1rem;
-  background-color: #3498db;
+  background: linear-gradient(to right, #3498db, #2980b9);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   font-weight: 500;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
   transition: all 0.3s ease;
   
   &:hover:not(:disabled) {
-    background-color: #2980b9;
     transform: translateY(-2px);
-  }
-  
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
   }
   
   i {
-    margin-right: 0.5rem;
+    margin-right: 0.8rem;
   }
 }
 
@@ -221,7 +238,7 @@
   .action-buttons {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.8rem;
     
     .btn {
       margin-right: 0;

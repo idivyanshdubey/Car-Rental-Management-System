@@ -24,6 +24,14 @@ public class UserService implements UserDetailsService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+    
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
     public User registerUser(User user) throws Exception
     {
         User oldUser = userRepository.findByUsername(user.getUsername());
@@ -34,6 +42,7 @@ public class UserService implements UserDetailsService{
         return userRepository.save(user);
     }
 
+    
     public User getUserById(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("No Such element found"));
     }

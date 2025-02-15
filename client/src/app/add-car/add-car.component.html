@@ -21,47 +21,103 @@
           <div class="card-body">
             <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
-                <label for="make"><i class="fas fa-industry"></i> Make</label>
+                <label for="make">
+                  <i class="fas fa-industry"></i>Manufacturer Name
+                  <span class="text-danger">*</span>
+                </label>
                 <input type="text" id="make" formControlName="make" class="form-control">
                 <div class="error-message" *ngIf="itemForm.get('make')?.invalid && itemForm.get('make')?.touched">
-                  <i class="fas fa-exclamation-circle"></i> Maker name is required
+                  <i class="fas fa-exclamation-circle"></i>Manufacturer Name is required
                 </div>
               </div>
 
-              <!-- Repeat for other form fields with appropriate icons -->
               <div class="form-group">
-                <label for="model"><i class="fas fa-car-side"></i> Model</label>
+                <label for="model">
+                  <i class="fas fa-car-side"></i>Model
+                  <span class="text-danger">*</span>
+                </label>
                 <input type="text" id="model" formControlName="model" class="form-control">
+                <div class="error-message" *ngIf="itemForm.get('model')?.invalid && itemForm.get('model')?.touched">
+                  <i class="fas fa-exclamation-circle"></i>Model Name is required
+                </div>
               </div>
 
               <div class="form-group">
-                <label for="manufactureYear"><i class="fas fa-calendar-alt"></i> Manufacture Year</label>
+                <label for="manufactureYear">
+                  <i class="fas fa-calendar-alt"></i>Manufacture Year
+                  <span class="text-danger">*</span>
+                </label>
                 <input type="text" id="manufactureYear" formControlName="manufactureYear" class="form-control">
+                <div class="error-message" *ngIf="itemForm.get('manufactureYear')?.invalid && itemForm.get('manufactureYear')?.touched">
+                  <div *ngIf="itemForm.get('manufactureYear')?.errors?.['required']">
+                    <i class="fas fa-exclamation-circle"></i>Manufacture Year is required
+                  </div>
+                  <div *ngIf="itemForm.get('manufactureYear')?.errors?.['pattern']">
+                    <i class="fas fa-exclamation-circle"></i>Manufacture Year must be a 4-digit number
+                  </div>
+                  <div *ngIf="itemForm.get('manufactureYear')?.errors?.['min']">
+                    <i class="fas fa-exclamation-circle"></i>Manufacture Year cannot be earlier than 2015
+                  </div>
+                </div>
               </div>
 
               <div class="form-group">
-                <label for="registrationNumber"><i class="fas fa-id-card"></i> Registration Number</label>
+                <label for="registrationNumber">
+                  <i class="fas fa-id-card"></i>Registration Number
+                  <span class="text-danger">*</span>
+                </label>
                 <input type="text" id="registrationNumber" formControlName="registrationNumber" class="form-control">
+                <div class="error-message" *ngIf="itemForm.get('registrationNumber')?.invalid && itemForm.get('registrationNumber')?.touched">
+                  <div *ngIf="itemForm.get('registrationNumber')?.errors?.['required']">
+                    <i class="fas fa-exclamation-circle"></i>Registration Number is required
+                  </div>
+                  <div *ngIf="itemForm.get('registrationNumber')?.errors?.['pattern']">
+                    <i class="fas fa-exclamation-circle"></i>Registration Number must follow the pattern: AA 00 AA 0000
+                  </div>
+                </div>
               </div>
 
               <div class="form-group">
-                <label for="status"><i class="fas fa-info-circle"></i> Status</label>
+                <label for="status">
+                  <i class="fas fa-info-circle"></i>Status
+                  <span class="text-danger">*</span>
+                </label>
                 <select id="status" formControlName="status" class="form-control">
                   <option value="available">Available</option>
                   <option value="booked">Booked</option>
                 </select>
+                <div class="error-message" *ngIf="itemForm.get('status')?.invalid && itemForm.get('status')?.touched">
+                  <i class="fas fa-exclamation-circle"></i>Status is required
+                </div>
               </div>
 
               <div class="form-group">
-                <label for="rentalRatePerDay"><i class="fas fa-dollar-sign"></i> Rental Rate Per Day</label>
-                <input type="number" id="rentalRatePerDay" formControlName="rentalRatePerDay" class="form-control">
-              </div>
-
-              <div class="form-group">
-                <label for="category"><i class="fas fa-tags"></i> Category</label>
+                <label for="category">
+                  <i class="fas fa-tags"></i>Category
+                  <span class="text-danger">*</span>
+                </label>
                 <select id="category" class="form-control" formControlName="category">
                   <option *ngFor="let carCat of carCategories" [value]="carCat.id">{{ carCat.name }}</option>
                 </select>
+                <div class="error-message" *ngIf="itemForm.get('category')?.invalid && itemForm.get('category')?.touched">
+                  <i class="fas fa-exclamation-circle"></i>Category is required
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="rentalRatePerDay">
+                  <i class="fas fa-dollar-sign"></i>Rental Rate Per Day
+                  <span class="text-danger">*</span>
+                </label>
+                <input type="number" id="rentalRatePerDay" formControlName="rentalRatePerDay" class="form-control">
+                <div class="error-message" *ngIf="itemForm.get('rentalRatePerDay')?.invalid && itemForm.get('rentalRatePerDay')?.touched">
+                  <div *ngIf="itemForm.get('rentalRatePerDay')?.errors?.['required']">
+                    <i class="fas fa-exclamation-circle"></i>Rental Rate Per Day is required
+                  </div>
+                  <div *ngIf="itemForm.get('rentalRatePerDay')?.errors?.['negativeValue']">
+                    <i class="fas fa-exclamation-circle"></i>Rental Rate Per Day cannot be negative
+                  </div>
+                </div>
               </div>
 
               <button type="submit" class="btn btn-submit">
@@ -122,5 +178,3 @@
     </div>
   </div>
 </div>
-
-

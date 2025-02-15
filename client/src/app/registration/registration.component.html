@@ -5,86 +5,134 @@
         <i class="fas fa-user-plus"></i> Create Account
       </div>
       <div class="card-body">
+        <div *ngIf="successMessage" class="success-message">
+          <i class="fas fa-check-circle"></i> {{ successMessage }}
+        </div>
+        <div *ngIf="errorMessage" class="error-message">
+          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+        </div>
+ 
         <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="registration-form">
           <div class="form-group">
-            <label for="email">
-              <i class="fas fa-envelope"></i> Email
+            <label for="firstName">
+              <i class="fas fa-user"></i> First Name <span class="text-danger">*</span>
             </label>
-            <input 
-              id="email" 
-              formControlName="email" 
-              type="email" 
-              class="form-control"
-              placeholder="Enter your email"
-            />
-            <div class="error-message" *ngIf="itemForm.controls['email'].invalid && itemForm.controls['email'].touched">
+            <input id="firstName" formControlName="firstName" type="text" class="form-control" placeholder="Enter your first name"/>
+            <div class="error-message" *ngIf="itemForm.get('firstName')?.invalid && itemForm.get('firstName')?.touched">
               <i class="fas fa-exclamation-circle"></i>
-              <span *ngIf="itemForm.controls['email'].errors?.['required']">Email is required</span>
-              <span *ngIf="itemForm.controls['email'].errors?.['email']">Invalid email format</span>
+              <span *ngIf="itemForm.get('firstName')?.errors?.['required']">First name is required</span>
+              <span *ngIf="itemForm.get('firstName')?.errors?.['minlength']">First name must be at least 2 characters</span>
             </div>
           </div>
-
+ 
+          <div class="form-group">
+            <label for="email">
+              <i class="fas fa-envelope"></i> Email <span class="text-danger">*</span>
+            </label>
+            <input id="email" formControlName="email" type="email" class="form-control" placeholder="Enter your email"/>
+            <div class="error-message" *ngIf="itemForm.get('email')?.invalid && itemForm.get('email')?.touched">
+              <i class="fas fa-exclamation-circle"></i>
+              <span *ngIf="itemForm.get('email')?.errors?.['required']">Email is required</span>
+              <span *ngIf="itemForm.get('email')?.errors?.['email']">Invalid email format</span>
+            </div>
+          </div>
+ 
+          <div class="form-group">
+            <label for="username">
+              <i class="fas fa-user"></i> Username <span class="text-danger">*</span>
+            </label>
+            <input id="username" formControlName="username" type="text" class="form-control" placeholder="Choose username"/>
+            <div class="error-message" *ngIf="itemForm.get('username')?.invalid && itemForm.get('username')?.touched">
+              <i class="fas fa-exclamation-circle"></i>
+              <span *ngIf="itemForm.get('username')?.errors?.['required']">Username is required</span>
+              <span *ngIf="itemForm.get('username')?.errors?.['minlength']">Username must be at least 3 characters</span>
+            </div>
+          </div>
+ 
           <div class="form-group">
             <label for="password">
-              <i class="fas fa-lock"></i> Password
+              <i class="fas fa-lock"></i> Password <span class="text-danger">*</span>
             </label>
-            <input 
-              id="password" 
-              formControlName="password" 
-              type="password" 
-              class="form-control"
-              placeholder="Create password"
-            />
-            <div class="error-message" *ngIf="itemForm.controls['password'].invalid && itemForm.controls['password'].touched">
+            <div class="password-field">
+              <input id="password" formControlName="password" [type]="showPassword ? 'text' : 'password'" class="form-control" placeholder="Create password"/>
+              <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+            </div>
+            <div class="password-strength-indicator" *ngIf="itemForm.get('password')?.value">
+              <div class="strength-meter">
+                <div [class]="'strength-meter-fill ' + passwordStrength"></div>
+              </div>
+              <div class="strength-text" [ngClass]="passwordStrength">
+                {{ passwordStrength ? (passwordStrength | titlecase) + ' Password' : '' }}
+              </div>
+              <div class="password-criteria">
+                <div [class.met]="passwordCriteria.minLength">At least 8 characters</div>
+                <div [class.met]="passwordCriteria.hasUpperCase">Contains uppercase letter</div>
+                <div [class.met]="passwordCriteria.hasLowerCase">Contains lowercase letter</div>
+                <div [class.met]="passwordCriteria.hasNumber">Contains number</div>
+                <div [class.met]="passwordCriteria.hasSpecialChar">Contains special character</div>
+              </div>
+            </div>
+            <div class="error-message" *ngIf="itemForm.get('password')?.invalid && itemForm.get('password')?.touched">
               <i class="fas fa-exclamation-circle"></i> Password is required
             </div>
           </div>
-
+ 
+          <div class="form-group">
+            <label for="confirmPassword">
+              <i class="fas fa-lock"></i> Confirm Password <span class="text-danger">*</span>
+            </label>
+            <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control" placeholder="Confirm your password"/>
+            <div class="error-message" *ngIf="itemForm.get('confirmPassword')?.touched && itemForm.errors?.['passwordMismatch']">
+              <i class="fas fa-exclamation-circle"></i> Passwords do not match
+            </div>
+          </div>
+ 
           <div class="form-group">
             <label for="role">
-              <i class="fas fa-user-tag"></i> Role
+              <i class="fas fa-user-tag"></i> Role <span class="text-danger">*</span>
             </label>
-            <select 
-              id="role" 
-              formControlName="role" 
-              class="form-control"
-            >
+            <select id="role" formControlName="role" class="form-control">
               <option value="">Select Role</option>
               <option value="CUSTOMER">Customer</option>
               <option value="ADMINISTRATOR">Administrator</option>
               <option value="AGENT">Agent</option>
             </select>
-            <div class="error-message" *ngIf="itemForm.controls['role'].invalid && itemForm.controls['role'].touched">
+            <div class="error-message" *ngIf="itemForm.get('role')?.invalid && itemForm.get('role')?.touched">
               <i class="fas fa-exclamation-circle"></i> Role is required
             </div>
           </div>
-
+ 
           <div class="form-group">
-            <label for="username">
-              <i class="fas fa-user"></i> Username
-            </label>
-            <input 
-              id="username" 
-              formControlName="username" 
-              type="text" 
-              class="form-control"
-              placeholder="Choose username"
-            />
-            <div class="error-message" *ngIf="itemForm.controls['username'].invalid && itemForm.controls['username'].touched">
-              <i class="fas fa-exclamation-circle"></i>
-              <span *ngIf="itemForm.controls['username'].errors?.['required']">Username is required</span>
-              <span *ngIf="itemForm.controls['username'].errors?.['minlength']">Username must be at least 3 characters</span>
+            <div class="terms-checkbox">
+              <label>
+                <input type="checkbox" formControlName="acceptTerms">
+                I accept the <a href="javascript:void(0)" (click)="toggleTerms()">Terms and Conditions</a>
+              </label>
+              <div class="error-message" *ngIf="itemForm.get('acceptTerms')?.invalid && itemForm.get('acceptTerms')?.touched">
+                <i class="fas fa-exclamation-circle"></i> You must accept the terms to continue
+              </div>
             </div>
           </div>
-
-          <button type="submit" class="btn btn-register" [disabled]="itemForm.invalid">
+ 
+          <button type="submit" class="btn btn-register" [disabled]="!isFormValid()">
             <i class="fas fa-user-plus"></i> Register
           </button>
-
+ 
           <div class="login-link">
-            Already have an account? 
+            Already have an account?
             <a [routerLink]="['/login']">
               <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+          </div>
+ 
+          <div class="help-links">
+            <a href="javascript:void(0)" (click)="toggleFAQ()">
+              <i class="fas fa-question-circle"></i> FAQ
+            </a>
+            <a href="javascript:void(0)" (click)="toggleTerms()">
+              <i class="fas fa-file-contract"></i> Terms & Conditions
             </a>
           </div>
         </form>
@@ -92,3 +140,55 @@
     </div>
   </div>
 </div>
+ 
+<div class="modal-overlay" *ngIf="showFAQ || showTerms" (click)="closeAdditionalInfo()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i [class]="showFAQ ? 'fas fa-question-circle' : 'fas fa-file-contract'"></i>
+        {{ showFAQ ? 'Frequently Asked Questions' : 'Terms and Conditions' }}
+      </h3>
+      <button class="close-modal" (click)="closeAdditionalInfo()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+ 
+    <div class="modal-body">
+      <div *ngIf="showFAQ" class="faq-section">
+        <div class="faq-item" *ngFor="let item of faqItems; let i = index">
+          <div class="faq-question" (click)="toggleFaqItem(i)">
+            <span>{{item.question}}</span>
+            <i [class]="item.isOpen ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+          </div>
+          <div class="faq-answer" [class.open]="item.isOpen">
+            {{item.answer}}
+          </div>
+        </div>
+      </div>
+ 
+      <div *ngIf="showTerms" class="terms-section">
+        <div class="terms-content">
+          <section>
+            <h4><i class="fas fa-user-plus"></i> 1. Account Registration</h4>
+            <p>By creating an account, you agree to provide accurate and complete information.</p>
+          </section>
+ 
+          <section>
+            <h4><i class="fas fa-shield-alt"></i> 2. Privacy Policy</h4>
+            <p>Your personal information will be handled according to our privacy policy.</p>
+          </section>
+ 
+          <section>
+            <h4><i class="fas fa-key"></i> 3. User Responsibilities</h4>
+            <p>You are responsible for maintaining the confidentiality of your account.</p>
+          </section>
+ 
+          <section>
+            <h4><i class="fas fa-balance-scale"></i> 4. Service Usage</h4>
+            <p>Our services must be used in accordance with applicable laws and regulations.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 

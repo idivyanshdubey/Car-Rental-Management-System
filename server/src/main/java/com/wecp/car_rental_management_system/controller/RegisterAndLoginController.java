@@ -32,10 +32,16 @@ public class RegisterAndLoginController {
     
     @PostMapping("/api/user/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        try{
-            return ResponseEntity.ok(userService.registerUser(user));
-        } catch(Exception ex) {
-            return new ResponseEntity<>(ex.getMessage() , HttpStatus.CONFLICT);
+        try {
+            boolean emailExists = userService.existsByEmail(user.getEmail());
+            boolean usernameExists = userService.existsByUsername(user.getUsername());
+
+            if (emailExists || usernameExists) {
+                return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
+            }
+             return ResponseEntity.ok(userService.registerUser(user));
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
  
