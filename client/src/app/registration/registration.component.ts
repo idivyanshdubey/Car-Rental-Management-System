@@ -165,6 +165,7 @@ export class RegistrationComponent {
       this.markFormGroupTouched(this.itemForm);
     }
   }
+<<<<<<< HEAD
 
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach(control => {
@@ -174,4 +175,6 @@ export class RegistrationComponent {
       }
     });
   }
+=======
+>>>>>>> 97f3277d3da2d6407d13d55c1c09978e47df78cd
 }

@@ -141,4 +141,9 @@ export class CarsComponent implements OnInit {
       console.warn('Form is invalid');
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+ 
+>>>>>>> 97f3277d3da2d6407d13d55c1c09978e47df78cd

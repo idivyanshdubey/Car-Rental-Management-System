@@ -75,6 +75,7 @@ export class AddCarComponent implements OnInit {
       this.errorMessage = "Form values are invalid";
     }
   }
+<<<<<<< HEAD
 
   addCar() {
     let category : Category;
@@ -126,3 +127,6 @@ export class AddCarComponent implements OnInit {
     );
   }
 }
+=======
+} //todo: complete missing code.
+>>>>>>> 97f3277d3da2d6407d13d55c1c09978e47df78cd

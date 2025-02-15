@@ -101,6 +101,7 @@
    }
  }
  
+<<<<<<< HEAD
  .btn-login {
    width: 100%;
    padding: 1rem;
@@ -160,3 +161,8 @@
    }
  }
  
+=======
+  button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+>>>>>>> 97f3277d3da2d6407d13d55c1c09978e47df78cd
