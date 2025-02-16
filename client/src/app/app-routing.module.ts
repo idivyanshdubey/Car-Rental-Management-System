@@ -13,6 +13,7 @@ import { CarsComponent } from './cars/cars.component';
 import { GetBookingsComponent } from './get-bookings/get-bookings.component';
 import { BookingReportComponent } from './booking-report/booking-report.component';
 import { PaymentReportComponent } from './payment-report/payment-report.component';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -27,7 +28,9 @@ const routes: Routes = [
   { path: 'booking-report', component: BookingReportComponent }, 
   { path: 'cars', component: CarsComponent }, 
   { path: 'category', component: CategoryComponent }, 
-  { path: 'add-car', component: AddCarComponent }, 
+  { path: 'add-car', component: AddCarComponent },
+  { path: 'home', component: HomeComponent }, 
+ 
  
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 

@@ -1,4 +1,13 @@
+
 <div class="cars-container animate__animated animate__fadeIn">
+  <div *ngIf="successMessage" class="alert alert-success animate__animated animate__fadeIn" role="alert">
+    <i class="fas fa-check-circle"></i> {{ successMessage }}
+  </div>
+  
+  <div *ngIf="errorMessage" class="alert alert-danger animate__animated animate__fadeIn" role="alert">
+    <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+  </div>
+
   <div class="content-wrapper">
     <div class="header-section">
       <h2 class="section-title">
@@ -39,13 +48,7 @@
                   class="form-control" 
                   formControlName="rentalEndDate"
                   [min]="todayString"
-                  />
-                  <!-- <div *ngIf="itemForm.get('rentalEndDate')?.hasError('endDateInvalid') && itemForm.get('rentalEndDate')?.touched" class="error-message">
-                    Rental end date must be after the rental start date.
-                  </div>
-                  <div *ngIf="showEndDateError" class="error-message">
-                    Please select a rental start date first.
-                  </div> -->
+                />
               </div>
             </div>
 
@@ -88,8 +91,8 @@
             [disabled]="!itemForm.valid || car.status !== 'available'"
             [ngClass]="{'btn-disabled': car.status !== 'available'}"
           >
-            <i class="fas fa-{{ car.status === 'available'  ? 'check' : 'lock' }}"></i>
-            {{ car.status === 'pending' || car.status === 'booked'  ? 'Unavailable' : 'Book Now' }}
+            <i class="fas fa-{{ car.status === 'available' ? 'check' : 'lock' }}"></i>
+            {{ car.status === 'pending' || car.status === 'booked' ? 'Unavailable' : 'Book Now' }}
           </button>
         </div>
       </div>

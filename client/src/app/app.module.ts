@@ -19,6 +19,7 @@ import { BookingReportComponent } from './booking-report/booking-report.componen
 import { PaymentReportComponent } from './payment-report/payment-report.component';
 
 import { CommonModule } from '@angular/common';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { CommonModule } from '@angular/common';
       CarsComponent,
       GetBookingsComponent,
       BookingReportComponent,
-      PaymentReportComponent
+      PaymentReportComponent,
+      HomeComponent
      
   ],
   imports: [

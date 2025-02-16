@@ -1,0 +1,276 @@
+<div class="dashboard-container animate__animated animate__fadeIn">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="brand-content">
+        <img src="assets/vroom-logo.jpg" alt="Vroom Cars" class="brand-logo">
+        <div class="brand-text">
+            <span class="brand-name">Vroom Cars</span>
+            <span class="brand-subtitle">Our wheels, Your journey</span>
+        </div>
+    </div>
+    
+    <div class="nav-buttons">
+      <a class="nav-btn btn-login" routerLink="/login">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a>
+      <a class="nav-btn btn-signup" routerLink="/registration">
+        <i class="fas fa-user-plus"></i> Sign Up
+      </a>
+      <button class="nav-btn btn-contact" (click)="scrollToSection('contactUs')">
+        <i class="fas fa-envelope"></i> Contact
+      </button>
+      <button class="nav-btn btn-about" (click)="scrollToSection('aboutUs')">
+        <i class="fas fa-info-circle"></i> About
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="animate__animated animate__fadeInDown">
+        Drive Your Dreams
+      </h1>
+      <p class="animate__animated animate__fadeInUp">
+        Experience luxury and comfort with our premium car rental service
+      </p>
+      <button class="cta-button animate__animated animate__fadeInUp" routerLink="/login">
+        <i class="fas fa-car"></i> Explore Cars
+      </button>
+    </div>
+    <div class="hero-overlay"></div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <h2>Why Choose Vroom Cars?</h2>
+    <div class="features-grid">
+      <div class="feature-card animate__animated animate__fadeInUp">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Safe & Secure</h3>
+        <p>Fully insured vehicles with 24/7 roadside assistance</p>
+      </div>
+      <div class="feature-card animate__animated animate__fadeInUp">
+        <i class="fas fa-clock"></i>
+        <h3>Quick Booking</h3>
+        <p>Easy online booking process with instant confirmation</p>
+      </div>
+      <div class="feature-card animate__animated animate__fadeInUp">
+        <i class="fas fa-car-side"></i>
+        <h3>Premium Fleet</h3>
+        <p>Wide range of luxury and comfortable vehicles</p>
+      </div>
+      <div class="feature-card animate__animated animate__fadeInUp">
+        <i class="fas fa-wallet"></i>
+        <h3>Best Prices</h3>
+        <p>Competitive rates with no hidden charges</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process-section">
+    <h2>How It Works</h2>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <i class="fas fa-search"></i>
+        <h3>Choose Your Car</h3>
+        <p>Browse our collection of premium vehicles</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <i class="fas fa-calendar-check"></i>
+        <h3>Make Reservation</h3>
+        <p>Select your dates and complete booking</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <i class="fas fa-key"></i>
+        <h3>Get Your Car</h3>
+        <p>Pick up your car and start your journey</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section id="aboutUs" class="about-section">
+    <div class="about-container">
+      <h2>Meet Our Team</h2>
+      <p class="about-description">
+        We're a passionate team of innovators dedicated to revolutionizing the car rental experience through technology and exceptional service.
+      </p>
+      
+      <div class="team-grid">
+        <!-- <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Aditya Anand</h3>
+          <p class="role">Team Lead</p>
+          <p class="description">Visionary leader driving innovation in car rental solutions</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Divyansh Dubey</h3>
+          <p class="role">Technical Architect</p>
+          <p class="description">Backend specialist crafting robust solutions</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Aastha Gajbe</h3>
+          <p class="role">UX Designer</p>
+          <p class="description">Creating seamless user experiences</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Nishant Uparkar</h3>
+          <p class="role">System Architect</p>
+          <p class="description">Engineering scalable solutions</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Ishan Katoch</h3>
+          <p class="role">Frontend Developer</p>
+          <p class="description">Crafting intuitive user interfaces</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div> -->
+
+        <!-- Team Cards Updates -->
+        <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Aditya Anand</h3>
+          <p class="role">Team Lead & Full Stack Developer</p>
+          <p class="description">Leading the team with expertise in Spring Boot, Angular, and cloud technologies</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Divyansh Dubey</h3>
+          <p class="role">Full Stack Developer</p>
+          <p class="description">Specializing in microservices architecture and RESTful API development</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Aastha Gajbe</h3>
+          <p class="role">Full Stack Developer</p>
+          <p class="description">Expert in database design and frontend optimization</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Nishant Uparkar</h3>
+          <p class="role">Full Stack Developer</p>
+          <p class="description">Focused on security implementation and performance optimization</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <div class="member-image">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3>Ishan Katoch</h3>
+          <p class="role">Full Stack Developer</p>
+          <p class="description">Specialized in UI/UX integration and backend architecture</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contactUs" class="contact-section">
+    <div class="contact-container">
+      <h2>Get in Touch</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <h3>Call Us</h3>
+            <p>+91 8505931713</p>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <h3>Email Us</h3>
+            <p>support@vroomcars.com</p>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Visit Us</h3>
+            <p>E-200, LTIMindtree, MIDC Industrial Area, Mahape road, Navi Mumbai-400705</p>
+          </div>
+        </div>
+        <div class="contact-form">
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+            <input type="text" placeholder="Your Name" formControlName="name">
+            <input type="email" placeholder="Your Email" formControlName="email">
+            <textarea placeholder="Your Message" formControlName="message"></textarea>
+            <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+            <button type="submit" class="submit-btn" [disabled]="contactForm.invalid || submitted">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
