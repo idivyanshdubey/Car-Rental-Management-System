@@ -89,6 +89,7 @@ export class AddCarComponent implements OnInit {
     }
 
   }
+<<<<<<< HEAD
 
   addCar() {
     let category: Category;
@@ -140,6 +141,7 @@ export class AddCarComponent implements OnInit {
 
     );
   }
+<<<<<<< HEAD
 
 private showTemporaryMessage(isError: boolean, message: string) {
   if (isError) {
@@ -168,3 +170,9 @@ private showTemporaryMessage(isError: boolean, message: string) {
   }, 5000);
   }
 }
+=======
+}
+=======
+} //todo: complete missing code.
+>>>>>>> 97f3277d3da2d6407d13d55c1c09978e47df78cd
+>>>>>>> 8e48894b0fc5f613f2949812708cecbba878922e

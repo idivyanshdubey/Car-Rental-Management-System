@@ -31,6 +31,7 @@ public class RegisterAndLoginController {
     private UserService userService;
     
     @PostMapping("/api/user/register")
+<<<<<<< HEAD
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
             boolean emailExists = userService.existsByEmail(user.getEmail());
@@ -42,16 +43,29 @@ public class RegisterAndLoginController {
              return ResponseEntity.ok(userService.registerUser(user));
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+=======
+        public ResponseEntity<?> registerUser(@RequestBody User user) {
+            try {
+                boolean emailExists = userService.existsByEmail(user.getEmail());
+                boolean usernameExists = userService.existsByUsername(user.getUsername());
+    
+                if (emailExists || usernameExists) {
+                    return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
+                }
+                 return ResponseEntity.ok(userService.registerUser(user));
+            } catch (Exception ex) {
+                return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+>>>>>>> 8e48894b0fc5f613f2949812708cecbba878922e
         }
-    }
- 
-    @PostMapping("/api/user/login")
-    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
-        User foundUser = userService.getUserByUsername(loginRequest.getUsername());
+    
+        @PostMapping("/api/user/login")
+        public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {
+            User foundUser = userService.getUserByUsername(loginRequest.getUsername());
             if (foundUser == null) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found");
             }
-         
+    
             try {
                 authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
@@ -59,13 +73,12 @@ public class RegisterAndLoginController {
             } catch (AuthenticationException e) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password", e);
             }
-         
+    
             final String token = jwtUtil.generateToken(foundUser.getUsername());
             return ResponseEntity.ok(
                 new LoginResponse(
                     foundUser.getId(), token, foundUser.getUsername(), foundUser.getEmail(), foundUser.getRole()
                 )
             );
+        }
     }
-}
-
