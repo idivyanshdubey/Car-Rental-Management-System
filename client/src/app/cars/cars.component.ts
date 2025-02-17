@@ -165,9 +165,4 @@ export class CarsComponent implements OnInit {
     const year = today.getFullYear();
     return `${year}-${month}-${day}`;
   }
-<<<<<<< HEAD
 }
-=======
-}
- 
->>>>>>> 97f3277d3da2d6407d13d55c1c09978e47df78cd

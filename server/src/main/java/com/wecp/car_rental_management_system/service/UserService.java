@@ -23,16 +23,6 @@ public class UserService implements UserDetailsService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
-        public boolean existsByEmail(String email) {
-            return userRepository.existsByEmail(email);
-        }
-    
-        public boolean existsByUsername(String username) {
-            return userRepository.existsByUsername(username);
-        }
-
-    
 
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
