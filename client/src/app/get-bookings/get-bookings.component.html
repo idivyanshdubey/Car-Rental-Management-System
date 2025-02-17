@@ -6,7 +6,8 @@
       </h2>
     </div>
 
-    <div class="alerts-container">
+    <!-- Alerts -->
+    <div #messageContainer class="alerts-container">
       <div class="alert success-alert animate__animated animate__fadeIn" *ngIf="showSuccessMessage">
         <i class="fas fa-check-circle"></i> {{ successMessage }}
       </div>
@@ -15,114 +16,98 @@
       </div>
     </div>
 
+    <!-- Booking List -->
     <div class="table-card">
       <div class="card-header">
         <i class="fas fa-list"></i> Booking List
       </div>
       <div class="card-body">
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th><i class="fas fa-hashtag"></i> Sr#</th>
-                <th><i class="fas fa-car"></i> Car</th>
-                <th><i class="fas fa-calendar-plus"></i> Start Date</th>
-                <th><i class="fas fa-calendar-minus"></i> End Date</th>
-                <th><i class="fas fa-rupee-sign"></i> Amount</th>
-                <th><i class="fas fa-info-circle"></i> Status</th>
-                <th><i class="fas fa-user"></i> User</th>
-                <th><i class="fas fa-cogs"></i> Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let booking of bookings; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ booking.car.make }} {{ booking.car.model }}</td>
-                <td>{{ booking.rentalStartDate | date }}</td>
-                <td>{{ booking.rentalEndDate | date }}</td>
-                <td>{{ booking.totalAmount | currency:'INR' }}</td>
-                <td>
-                  <span class="status-badge" [ngClass]="booking.status.toLowerCase()">
-                    {{ booking.status }}
-                  </span>
-                </td>
-                <td>{{ booking.user.username }}</td>
-                <td class="action-buttons">
-                  <ng-container *ngIf="booking.status === 'Pending'">
-                    <button class="btn btn-accept" (click)="acceptBooking(booking.id, 'Process Payment')">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Car</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>User</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of bookings; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ booking.car.make }} {{ booking.car.model }}</td>
+              <td>{{ booking.rentalStartDate | date }}</td>
+              <td>{{ booking.rentalEndDate | date }}</td>
+              <td>{{ booking.totalAmount | currency:'INR' }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="booking.status.toLowerCase()">
+                  {{ booking.status }}
+                </span>
+              </td>
+              <td>{{ booking.user.username }}</td>
+              <!-- <td>
+                <button *ngIf="booking.status === 'Pending'" (click)="acceptBooking(booking.id, 'Process Payment')">
+                  Accept
+                </button>
+                <button *ngIf="booking.status === 'Process Payment'" (click)="showPaymentForm(booking)">
+                  Payment
+                </button>
+                <span *ngIf="booking.status === 'Booked'">NA</span>
+              </td> -->
+
+              <td>
+                  <button class="accept-btn" *ngIf="booking.status === 'Pending'" (click)="acceptBooking(booking.id, 'Process Payment')">
                       <i class="fas fa-check"></i> Accept
-                    </button>
-                  </ng-container>
+                  </button>
+                  <button class="payment-btn" *ngIf="booking.status === 'Process Payment'" (click)="showPaymentForm(booking)">
+                      <i class="fas fa-money-bill-wave"></i> Payment
+                  </button>
+                  <span *ngIf="booking.status === 'Booked'">NA</span>
+              </td>
 
-                  <ng-container *ngIf="booking.status === 'Process Payment'">
-                    <button class="btn btn-payment" (click)="showPaymentForm(booking)">
-                      <i class="fas fa-credit-card"></i> Payment
-                    </button>
-                  </ng-container>
-
-                  <!-- Show "NA" after payment is completed -->
-                  <div *ngIf="booking.status === 'Booked'" class="na-container">
-                    <span class="na-label">NA</span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
     <!-- Payment Form -->
-    <div class="payment-form-card animate__animated animate__fadeIn" *ngIf="selectedBooking">
+    <div *ngIf="selectedBooking" class="payment-form-card">
       <div class="card-header">
         <i class="fas fa-money-check-alt"></i> Process Payment
-        <span class="booking-id">Booking ID: {{ selectedBooking.id }}</span>
       </div>
       <div class="card-body">
         <form [formGroup]="itemForm" (ngSubmit)="createPayment()">
-          <div class="form-group">
-            <label for="amount">
-              <i class="fas fa-dollar-sign"></i> Amount
-            </label>
-            <input type="number" id="amount" formControlName="amount" class="form-control">
+          <label>Amount</label>
+          <input type="number" formControlName="amount" class="form-control">
+          <div *ngIf="itemForm.controls['amount'].invalid && itemForm.controls['amount'].touched" class="error">
+            <i class="fas fa-exclamation-circle"></i> Amount is required.
           </div>
 
-          <div class="form-group">
-            <label for="paymentDate">
-              <i class="fas fa-calendar-alt"></i> Payment Date
-            </label>
-            <input type="date" id="paymentDate" formControlName="paymentDate" class="form-control">
-          </div>
+          <label>Payment Date</label>
+          <input type="date" formControlName="paymentDate" class="form-control" [min]="getCurrentDate()">
 
-          <div class="form-group">
-            <label for="paymentMethod">
-              <i class="fas fa-money-bill-wave"></i> Payment Method
-            </label>
-            <select id="paymentMethod" formControlName="paymentMethod" class="form-control">
-              <option value="">Select Payment Method</option>
-              <option value="credit-card">Credit Card</option>
-              <option value="debit-card">Debit Card</option>
-              <option value="paypal">PayPal</option>
-              <option value="cashOnDelivery">Cash On Delivery</option>
-            </select>
-          </div>
+          <label>Payment Method</label>
+          <select formControlName="paymentMethod">
+            <option value="">Select Payment Method</option>
+            <option value="credit-card">Credit Card</option>
+            <option value="debit-card">Debit Card</option>
+      <option value="paypal">PayPal</option>
+            <option value="cashOnDelivery">Cash On Delivery</option>
+          </select>
 
-          <div class="form-group">
-            <label for="paymentStatus">
-              <i class="fas fa-info-circle"></i> Payment Status
-            </label>
-            <input type="text" id="paymentStatus" formControlName="paymentStatus" class="form-control">
-          </div>
+          <label>Payment Status</label>
+          <select formControlName="paymentStatus">
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+          </select>
 
-          <button type="submit" class="btn btn-submit" [disabled]="!itemForm.valid">
-            <i class="fas fa-check-circle"></i> Process Payment
-          </button>
+          <button type="submit" [disabled]="!itemForm.valid">Process Payment</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-
-
-
-

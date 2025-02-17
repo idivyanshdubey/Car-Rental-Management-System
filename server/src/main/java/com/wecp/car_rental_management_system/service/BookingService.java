@@ -33,6 +33,20 @@ public class BookingService {
     // }
 
     public Booking bookCar(Long userId, Long carId, BookingDto bookingDto) {
+
+        Date startDate = bookingDto.getRentalStartDate();
+        Date endDate = bookingDto.getRentalEndDate();
+        
+        // Calculate difference in days
+        long diffInMillies = endDate.getTime() - startDate.getTime();
+        long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        
+        if (diffInDays < 1) {
+            throw new IllegalArgumentException("RentalEnd Date should be at least a day after Rental Start date");
+        }
+        
+
+
         Booking booking = new Booking();
     
         booking.setRentalStartDate(bookingDto.getRentalStartDate());

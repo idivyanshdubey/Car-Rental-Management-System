@@ -150,6 +150,15 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
     margin-bottom: 1rem;
+
+    p {
+            i {
+                &.fa-rupee-sign {
+                    margin-right: 0.8rem;
+                    color: #3498db;
+                }
+            }
+        }
     
     p {
       margin: 0;
@@ -238,5 +247,11 @@
   .search-card .card-body {
     padding: 1.5rem;
   }
+}
+
+
+.currency {
+    font-weight: 500;
+    margin-right: 4px;
 }
 

@@ -23,6 +23,7 @@ export class RegistrationComponent {
   passwordStrength: string = '';
   showFAQ = false;
   showTerms = false;
+  completionPercentage:number=0;
  
   faqItems: FaqItem[] = [
     {
@@ -140,6 +141,10 @@ export class RegistrationComponent {
   isFormValid(): boolean {
     return this.itemForm.valid;
   }
+  private scrollToTop():void{
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+ 
  
   onSubmit(): void {
     if (this.itemForm.valid) {
@@ -147,24 +152,25 @@ export class RegistrationComponent {
         ...this.itemForm.value,
         confirmPassword: undefined
       };
- 
       this.httpService.registerUser(registrationData).subscribe({
-        next: () => {
-          this.successMessage = 'Registration successful! Redirecting to login...';
-          this.errorMessage = '';
-          setTimeout(() => this.router.navigate(['/login']), 4000);
-        },
-        error: (error) => {
-          this.successMessage = '';
-          this.errorMessage = error.status === 409
-            ? 'This email or username is already registered'
-            : 'Registration failed. Please try again.';
+            next: () => {
+              this.successMessage = 'Registration successful! Redirecting to login...';
+              this.errorMessage = '';
+              this.scrollToTop();
+              setTimeout(() => this.router.navigate(['/login']), 4000);
+            },
+            error: (error) => {
+              this.successMessage = '';
+              this.errorMessage = error.status === 409
+                ? 'This email or username is already registered'
+                : 'Registration failed. Please try again.';
+              this.scrollToTop();
+            }
+          });
+        } else {
+          this.markFormGroupTouched(this.itemForm);
         }
-      });
-    } else {
-      this.markFormGroupTouched(this.itemForm);
-    }
-  }
+      }
  
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach(control => {

@@ -33,10 +33,15 @@ public class CustomerController {
     }
 
     @PostMapping("/api/customers/booking")
-    public ResponseEntity<Booking> bookCar(@RequestParam Long userId, @RequestParam Long carId,
+    public ResponseEntity<?> bookCar(@RequestParam Long userId, @RequestParam Long carId,
                                            @RequestBody BookingDto bookingDto) {
         // book a car
-        return new ResponseEntity<Booking>(bookingService.bookCar(userId, carId, bookingDto), HttpStatus.OK);
+        try {
+               Booking booking = bookingService.bookCar(userId, carId, bookingDto);
+               return new ResponseEntity<>(booking, HttpStatus.OK);
+           } catch (IllegalArgumentException e) {
+               return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+           }
     }
 
     @GetMapping("/api/customers/bookings/{userId}")

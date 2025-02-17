@@ -58,6 +58,9 @@
                   <div *ngIf="itemForm.get('manufactureYear')?.errors?.['min']">
                     <i class="fas fa-exclamation-circle"></i>Manufacture Year cannot be earlier than 2015
                   </div>
+                  <div *ngIf="itemForm.get('manufactureYear')?.errors?.['max']">
+                    <i class="fas fa-exclamation-circle"></i>Manufacture Year cannot be in the future
+                  </div>
                 </div>
               </div>
 
@@ -159,7 +162,7 @@
                     <td>{{ car.model }}</td>
                     <td>{{ car.manufactureYear }}</td>
                     <td>
-                      <span class="status-badge" [class.available]="car.status === 'available'">
+                      <span class="status-badge" [ngClass]="car.status.toLowerCase().replace(' ', '-')">
                         {{ car.status }}
                       </span>
                     </td>

@@ -118,6 +118,8 @@
   font-size: 0.9rem;
   font-weight: 500;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  white-space: nowrap; // This will keep the text in one line  
+  display: inline-block; // Ensures proper spacing
   
   &.pending {
     background: linear-gradient(to right, #f1c40f, #f39c12);
@@ -245,3 +247,127 @@
     }
   }
 }
+
+
+// Payment Form Styling
+.payment-form-card {
+  form {
+    display: grid;
+    gap: 1.5rem;
+
+    label {
+      color: #2c3e50;
+      font-weight: 500;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(52, 152, 219, 0.2);
+      background: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.25);
+      }
+    }
+
+    button {
+      padding: 1rem 2rem;
+      background: linear-gradient(to right, #3498db, #2980b9);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(52, 152, 219, 0.3);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .error {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+td {
+    .accept-btn {
+        background: linear-gradient(to right, #2ecc71, #27ae60);
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 50px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(46, 204, 113, 0.3);
+        }
+    }
+    
+    .payment-btn {
+        background: linear-gradient(to right, #3498db, #2980b9);
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 50px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+    }
+}
+
+
+
+// Status Badge Enhancement
+.status-badge {
+  &.process.payment {
+    background: linear-gradient(to right, #e67e22, #d35400);
+  }
+}
+
+// Responsive Enhancements
+@media (max-width: 768px) {
+  .payment-form-card {
+    margin: 1rem;
+    
+    form {
+      padding: 1rem;
+    }
+  }
+
+  td button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
