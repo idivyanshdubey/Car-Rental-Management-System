@@ -28,7 +28,7 @@ This project is a comprehensive **Car Rental Management System** built with **Sp
 Screenshots of my application to provide users with a visual overview:
 
 <p align="center">
-  <img src="screenshots/overview.png" alt="App Screenshot" width="600"/>
+  <img src="home.png" alt="App Screenshot" width="600"/>
 </p>
 
 <details>
