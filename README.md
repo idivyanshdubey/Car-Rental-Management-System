@@ -35,8 +35,7 @@ Screenshots of my application to provide users with a visual overview:
 <summary>Click to view more screenshots</summary>
 
 <p align="center">
-  <img src="screenshots/login.png" alt="Login Page" width="400"/>
-  <img src="screenshots/booking.png" alt="Booking Page" width="400"/>
+  <img src="register.png" alt="Register Page" width="400"/>
 </p>
 
 </details>
